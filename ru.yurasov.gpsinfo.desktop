@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=ru.yurasov.gpsinfo
+Exec=ru.yurasov.gpsinfo
+Name=GPSInfo
+Name[ru]=GPS Инфо
+
+[X-Application]
+Permissions=Sensors;Location
+OrganizationName=ru.yurasov
+ApplicationName=gpsinfo
