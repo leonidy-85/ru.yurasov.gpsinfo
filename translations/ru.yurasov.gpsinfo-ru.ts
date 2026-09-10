@@ -2,17 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
-    <name></name>
-    <message id="contacts-mp-favorites">
-        <source>Favorites</source>
-        <translation></translation>
-    </message>
-    <message id="contacts-mp-contacts">
-        <source>Contacts</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>AboutPage</name>
     <message>
         <source>An app to show all position information</source>
@@ -536,12 +525,12 @@
         <translation>GPS Инфо</translation>
     </message>
     <message>
-        <source>radarPage</source>
-        <translation>Положение спутников</translation>
+        <source>Satellites</source>
+        <translation>Спутники</translation>
     </message>
     <message>
-        <source>barchartPage</source>
-        <translation>Уровень приема</translation>
+        <source>Signal</source>
+        <translation>Сигнал</translation>
     </message>
 </context>
 </TS>

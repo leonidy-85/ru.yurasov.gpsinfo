@@ -132,7 +132,7 @@ Tabs.TabItem  {
             InfoField {
                 label: qsTr("Movement direction")
                 visible: settings.showMovementDirectionApp
-                value: isNaN(providers.gps.movementDirection) ? "-" : locationFormatter.formatDirection(providers.gps.movementDirection)
+                value: providers.position.position.directionValid ? locationFormatter.formatDirection(providers.position.position.direction) : "-"
             }
             InfoField {
                 label: qsTr("Last update")
@@ -204,7 +204,7 @@ Tabs.TabItem  {
                 label: qsTr("Magnetic Declination")
                 visible: settings.showCompassDirectionApp
                 value: {
-                    if(typeof providers.position.position.magneticVariationValid !== undefined) {
+                    if(typeof providers.position.position.magneticVariationValid !== "undefined") {
                         if (providers.position.position.magneticVariationValid === true) {
                             return locationFormatter.roundToDecimal(providers.position.position.magneticVariation, 1)
                         }
@@ -224,18 +224,4 @@ Tabs.TabItem  {
         }
     }
 
-    ListModel {
-            id: tabModel
-
-            ListElement {
-                //% "Favorites"
-                title: qsTrId("contacts-mp-favorites")
-                icon: "image://theme/icon-splus-favorite"
-            }
-            ListElement {
-                //% "Contacts"
-                title: qsTrId("contacts-mp-contacts")
-                icon: "image://theme/icon-splus-contact"
-            }
-        }
 }

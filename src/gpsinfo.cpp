@@ -22,19 +22,19 @@ int main(int argc, char *argv[]) {
     GPSInfoSettings* settings = new GPSInfoSettings();
 
     QGuiApplication* qGuiAppl = Application::application(argc, argv);
-    QStringList locales;
     QString baseName("/usr/share/ru.yurasov.gpsinfo/translations/");
-    QDir localesDir(baseName);
-    if (localesDir.exists()) {
-        locales = localesDir.entryList(QStringList() << "*.qm", QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
-    }
-    locales.replaceInStrings(".qm", "");
     QString currentLocale = settings->getLocale();
-    qDebug() << "loading language" << currentLocale;
-    QTranslator* translator = new QTranslator();
-    QString fileName = currentLocale.compare("en") == 0 ? "gpsinfo.qm" : "gpsinfo_"+currentLocale+".qm";
-    translator->load(fileName, baseName);
-    QGuiApplication::installTranslator(translator);
+    QString language = currentLocale.left(2);
+    qDebug() << "loading language" << language;
+    if (language.compare("en") != 0) {
+        QTranslator* translator = new QTranslator();
+        QString fileName = "ru.yurasov.gpsinfo-" + language + ".qm";
+        if (translator->load(fileName, baseName)) {
+            QGuiApplication::installTranslator(translator);
+        } else {
+            qDebug() << "cannot load translation" << fileName << "from" << baseName;
+        }
+    }
 
     QQuickView *view = Application::createView();
     view->rootContext()->setContextProperty("settings", settings);

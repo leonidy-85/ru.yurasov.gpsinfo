@@ -56,6 +56,6 @@ images.files = \
 INSTALLS += images
 
 
-VERSION = $$system( egrep "^Version:\|^Release:" rpm/ru.yurasov.gpsinfo.spec |tr -d "[A-Z][a-z]: " | tr "\\\n" "-" | sed "s/\.$//g"| tr -d "[:space:]")
+VERSION = $$system( grep -E "^Version:|^Release:" rpm/ru.yurasov.gpsinfo.spec |tr -d "[A-Z][a-z]: " | tr "\\\n" "-" | sed "s/\.$//g"| tr -d "[:space:]")
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"

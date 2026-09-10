@@ -2,19 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name></name>
-    <message id="contacts-mp-favorites">
-        <location filename="../qml/pages/FirstPage.qml" line="232"/>
-        <source>Favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="contacts-mp-contacts">
-        <location filename="../qml/pages/FirstPage.qml" line="237"/>
-        <source>Contacts</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>AboutPage</name>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="27"/>
@@ -661,12 +648,12 @@
     </message>
     <message>
         <location filename="../qml/pages/TabMainPage.qml" line="95"/>
-        <source>radarPage</source>
+        <source>Satellites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TabMainPage.qml" line="100"/>
-        <source>barchartPage</source>
+        <source>Signal</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

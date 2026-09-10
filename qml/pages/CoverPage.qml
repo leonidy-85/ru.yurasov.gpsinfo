@@ -95,7 +95,7 @@ CoverBackground {
             label: qsTr("Mov.")
             visible: settings.showMovementDirectionCover
             fontpixelSize: Theme.fontSizeMedium
-            value: isNaN(providers.gps.movementDirection) ? "-" : locationFormatter.formatDirection(providers.gps.movementDirection)
+            value: providers.position.position.directionValid ? locationFormatter.formatDirection(providers.position.position.direction) : "-"
         }
         InfoField {
             label: ""
@@ -137,7 +137,7 @@ CoverBackground {
             label: qsTr("Satel.")
             visible: settings.showSatelliteInfoCover
             fontpixelSize: Theme.fontSizeMedium
-            value: providers.gps.numberOfUsedSatellites + "/" + providers.gps.numberOfVisibleSatellites
+            value: providers.gps.active ? providers.gps.numberOfUsedSatellites + "/" + providers.gps.numberOfVisibleSatellites : "-"
         }
         InfoField {
             label: qsTr("Com.")

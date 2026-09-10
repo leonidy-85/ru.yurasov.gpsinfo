@@ -92,12 +92,12 @@ Page {
             count: 0
         }
         ListElement {
-            title: qsTr("radarPage")
+            title: qsTr("Satellites")
             icon: "image://theme/icon-m-location"
             count: 0
         }
         ListElement {
-            title: qsTr("barchartPage")
+            title: qsTr("Signal")
             icon: "image://theme/icon-m-wlan-2"
             count: 0
         }

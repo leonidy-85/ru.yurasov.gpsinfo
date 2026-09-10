@@ -1,11 +1,12 @@
 #include "qmlsettingswrapper.h"
 #include <QDebug>
+#include <QLocale>
 
 QMLSettingsWrapper::QMLSettingsWrapper(QString organisation, QString application, QObject *parent) :
     QObject(parent),
     settings(new QSettings(organisation, application, this))
 {
-    if (!settings->value("locale").toBool())
+    if (!settings->contains("locale"))
         settings->setValue("locale", QLocale().name().mid(0, 2));
 }
 

@@ -157,10 +157,10 @@ Tabs.TabItem  {
                 height: diameter/2
                 anchors.left: parent.horizontalCenter
                 anchors.bottom: parent.verticalCenter
-                transform: Rotation { origin.x: 0 ; origin.y: diameter/2; angle: isNaN(providers.gps.movementDirection) ? 0 : providers.gps.movementDirection }
+                transform: Rotation { origin.x: 0 ; origin.y: diameter/2; angle: providers.position.position.directionValid ? providers.position.position.direction : 0 }
                 border.color: "#ffffff"
-                opacity: !isNaN(providers.gps.movementDirection) ? 0.75 : 0.0
-                visible: settings.showDirectionIndicator && !isNaN(providers.gps.movementDirection)
+                opacity: providers.position.position.directionValid ? 0.75 : 0.0
+                visible: settings.showDirectionIndicator && providers.position.position.directionValid
             }
 
             // North, East, South, West, MagneticNorth indicators

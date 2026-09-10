@@ -90,11 +90,28 @@ void GPSSatelliteModel::reconcile(const QList<QGeoSatelliteInfo> &infos, bool sh
             endInsertRows();
         } else {
             GPSSatellite* sat = this->satellites.at(row);
-            sat->setSystem(info->satelliteSystem());
-            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
-            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
-            sat->setSignalStrength(info->signalStrength());
-            emit dataChanged(index(row), index(row));
+            bool changed = false;
+            if (sat->getSystem() != info->satelliteSystem()) {
+                sat->setSystem(info->satelliteSystem());
+                changed = true;
+            }
+            qreal azimuth = info->attribute(QGeoSatelliteInfo::Azimuth);
+            if (sat->getAzimuth() != azimuth) {
+                sat->setAzimuth(azimuth);
+                changed = true;
+            }
+            qreal elevation = info->attribute(QGeoSatelliteInfo::Elevation);
+            if (sat->getElevation() != elevation) {
+                sat->setElevation(elevation);
+                changed = true;
+            }
+            if (sat->getSignalStrength() != info->signalStrength()) {
+                sat->setSignalStrength(info->signalStrength());
+                changed = true;
+            }
+            if (changed) {
+                emit dataChanged(index(row), index(row));
+            }
         }
     }
 }
@@ -160,13 +177,6 @@ GPSDataSource::GPSDataSource(QObject *parent) :
     } else {
         qDebug() << "cannot create default QGeoSatelliteInfoSource";
     }
-    this->pSource = QGeoPositionInfoSource::createDefaultSource(this);
-    if (this->pSource) {
-        qDebug() << "created QGeoPositionInfoSource" << this->pSource->sourceName();
-        connect(this->pSource, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
-    } else {
-        qDebug() << "cannot create default QGeoPositionInfoSource";
-    }
     this->active = false;
 }
 
@@ -180,10 +190,6 @@ void GPSDataSource::satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &info
     this->satelliteModel->reconcile(infos, this->settings.getShowEmptyChannels());
     emit this->satellitesChanged();
     this->setNumberOfVisibleSatellites(this->satelliteModel->rowCount());
-}
-
-void GPSDataSource::positionUpdated(QGeoPositionInfo info) {
-    this->setMovementDirection(info.attribute(QGeoPositionInfo::Direction));
 }
 
 QVariantList GPSDataSource::getSatellites() {
@@ -212,17 +218,11 @@ void GPSDataSource::setActive(bool active) {
     if (!this->active && active) {
         qDebug() << "activating source...";
         this->sSource->startUpdates();
-        if (this->pSource) {
-            this->pSource->startUpdates();
-        }
         this->active = true;
         emit this->activeChanged(true);
     } else if (this->active && !active) {
         qDebug() << "deactivating source...";
         this->sSource->stopUpdates();
-        if (this->pSource) {
-            this->pSource->stopUpdates();
-        }
         this->active = false;
         this->satelliteModel->clear();
         emit this->activeChanged(false);
@@ -233,9 +233,6 @@ void GPSDataSource::setActive(bool active) {
 void GPSDataSource::setUpdateInterval(int updateInterval) {
     if (this->sSource) {
         this->sSource->setUpdateInterval(updateInterval);
-    }
-    if (this->pSource) {
-        this->pSource->setUpdateInterval(updateInterval);
     }
     emit this->updateIntervalChanged(updateInterval);
 }
@@ -300,8 +297,4 @@ void GPSDataSource::SimulatorTimeout()
 
     satellitesInViewUpdated(satellites);
     satellitesInUseUpdated(satellitesInUse);
-
-    QGeoPositionInfo position;
-    position.setAttribute(QGeoPositionInfo::Direction, 24.0);
-    positionUpdated(position);
 }

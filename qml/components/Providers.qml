@@ -95,14 +95,14 @@ Item {
             if (pendingFix) {
                 secondsToLocationFix = Math.round((new Date() - gpsActivationTime)/1000)
                 pendingFix=false
-                Notices.show(qsTr("Time to First Fix") + ": " + secondsToFirstFix + "s", Notice.Long)
+                Notices.show(qsTr("Time to First Fix") + ": " + secondsToLocationFix + "s", Notice.Long)
             }
 
         }
         function formatElapsedTime(t) { //print fn for elapsed times
             if (t<=90) return Math.round(t)+ "sec"
             t=t/60;
-            if (t<=90) return locationFormatter.roundToDecimal(T,1)+ "min"
+            if (t<=90) return locationFormatter.roundToDecimal(t,1)+ "min"
             t=t/60;
             return locationFormatter.roundToDecimal(t,1)+ "hr"
         }

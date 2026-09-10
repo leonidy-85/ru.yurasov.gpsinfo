@@ -8,7 +8,6 @@
 #include <QTimer>
 #include <QAbstractListModel>
 #include <QGeoSatelliteInfoSource>
-#include <QGeoPositionInfoSource>
 #include "gpsinfosettings.h"
 
 class GPSSatellite : public QObject {
@@ -86,7 +85,6 @@ class GPSDataSource : public QObject
     Q_PROPERTY(QAbstractListModel* satelliteModel READ getSatelliteModel CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(int updateInterval READ getUpdateInterval WRITE setUpdateInterval NOTIFY updateIntervalChanged)
-    Q_PROPERTY(qreal movementDirection READ getMovementDirection WRITE setMovementDirection NOTIFY movementDirectionChanged)
     Q_PROPERTY(int numberOfUsedSatellites READ getNumberOfUsedSatellites WRITE setNumberOfUsedSatellites NOTIFY numberOfUsedSatellitesChanged)
     Q_PROPERTY(int numberOfVisibleSatellites READ getNumberOfVisibleSatellites WRITE setNumberOfVisibleSatellites NOTIFY numberOfVisibleSatellitesChanged)
 public:
@@ -94,33 +92,27 @@ public:
 private:
     QTimer SimulatorTimer;
     QGeoSatelliteInfoSource* sSource;
-    QGeoPositionInfoSource* pSource;
     GPSSatelliteModel* satelliteModel;
     bool active;
-    qreal movementDirection = qQNaN();
     int numberOfUsedSatellites;
     int numberOfVisibleSatellites;
     GPSInfoSettings settings;
 public slots:
-    qreal getMovementDirection() {return this->movementDirection;}
     int getNumberOfUsedSatellites() {return this->numberOfUsedSatellites;}
     int getNumberOfVisibleSatellites() {return this->numberOfVisibleSatellites;}
     QVariantList getSatellites();
     QAbstractListModel* getSatelliteModel() { return this->satelliteModel; }
     int getUpdateInterval() {if (this->sSource) return this->sSource->updateInterval(); return -1;}
     bool isActive() {return this->active;}
-    void positionUpdated(QGeoPositionInfo info);
     void satellitesInUseUpdated(const QList<QGeoSatelliteInfo> &infos);
     void satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &infos);
     void setActive(bool active);
-    void setMovementDirection(qreal movingDirection) {this->movementDirection = movingDirection; emit this->movementDirectionChanged(movingDirection);}
     void setNumberOfUsedSatellites(int numberOfUsedSatellites) {this->numberOfUsedSatellites = numberOfUsedSatellites; emit this->numberOfUsedSatellitesChanged(numberOfUsedSatellites);}
     void setNumberOfVisibleSatellites(int numberOfVisibleSatellites) {this->numberOfVisibleSatellites = numberOfVisibleSatellites; emit this->numberOfVisibleSatellitesChanged(numberOfVisibleSatellites);}
     void setUpdateInterval(int updateInterval);
     void SimulatorTimeout();
 signals:
     void activeChanged(bool);
-    void movementDirectionChanged(qreal);
     void numberOfUsedSatellitesChanged(int);
     void numberOfVisibleSatellitesChanged(int);
     void satellitesChanged();

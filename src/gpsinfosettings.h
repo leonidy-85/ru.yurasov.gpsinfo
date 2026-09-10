@@ -46,7 +46,7 @@ public:
     explicit GPSInfoSettings(QObject *parent = 0);
 
     QString getCoordinateFormat() {return this->value("coordinateFormat", "DEG").toString();}
-    QString getLocale() {return this->value("locale", QLocale().name()).toString();}
+    QString getLocale() {return this->value("locale", QLocale().name().mid(0, 2)).toString();}
     bool getShowAltitudeApp() {return this->value("showAltitudeApp", true).toBool();}
     bool getShowAltitudeCover() {return this->value("showAltitudeCover", false).toBool();}
     bool getShowCompassDirectionApp() {return this->value("showCompassDirectionApp", true).toBool();}
