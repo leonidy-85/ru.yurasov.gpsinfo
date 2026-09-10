@@ -13,37 +13,34 @@ Page {
     }
 
     SilicaFlickable {
-        id: aboutFlickable
         anchors.fill: parent
-        contentHeight: header.height + column.height
-
-        PageHeader {
-            id: header
-            title: qsTr("View license")
-        }
+        contentWidth: parent.width
+        contentHeight: col.height
+        VerticalScrollDecorator {}
 
         Column {
-            id: column
-            anchors {
-                top: header.bottom
-                horizontalCenter: parent.horizontalCenter
+            id: col
+            spacing: 20
+            width: parent.width
+
+            SectionHeader {
+                text: qsTr("About")
             }
-            width: Math.min(Screen.width, aboutFlickable.width)
-            spacing: Theme.paddingLarge
+
+            Label {
+                font.pixelSize: Theme.fontSizeExtraLarge
+                color: Theme.highlightColor
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "GPSInfo"
+            }
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: Qt.resolvedUrl("/usr/share/icons/hicolor/256x256/apps/harbour-gpsinfo.png")
+                source: Qt.resolvedUrl("/usr/share/icons/hicolor/172x172/apps/ru.yurasov.gpsinfo.png")
                 width: Theme.iconSizeExtraLarge
                 height: Theme.iconSizeExtraLarge
                 smooth: true
                 asynchronous: true
-            }
-
-            AboutLabel {
-                font.pixelSize: Theme.fontSizeLarge
-                color: Theme.highlightColor
-                text: "GPSInfo"
             }
 
             AboutLabel {
@@ -55,8 +52,63 @@ Page {
             AboutLabel {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
-                text: qsTr("Version") + " 0.15.1-1"
+                text: qsTr("Version ") + version
             }
+            Item {
+              width: parent.width
+              height: Theme.paddingLarge
+            }
+
+            Separator {
+                color: Theme.primaryColor
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Qt.AlignHCenter
+            }
+            SectionHeader {
+                text: qsTr("Donate")
+            }
+            AboutLabel {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2*Theme.horizontalPageMargin
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+                text:  qsTr("Your help allows us to make this project better.")
+            }
+
+            AboutLabel {
+                id: ymoney
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2*Theme.horizontalPageMargin
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+                text: qsTr("If you like the app, you can donate to the author of the app via ")+ "<a href=\"https://forms.yandex.ru/u/66d272b8068ff021f89c2953/\">ЮMoney </a>" + qsTr(" or ")+ "<a href=\"https://boosty.to/ub3gad/donate\"> Boosty</a>"
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
+            Item {
+              width: parent.width
+              height: Theme.paddingLarge
+            }
+
+            Separator {
+                color: Theme.primaryColor
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Qt.AlignHCenter
+            }
+            SectionHeader {
+                text: qsTr("Author")
+            }
+            Label {
+                text: qsTr("Adaptation for Aurora Leonid Yurasov ")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
 
             AboutLabel {
                 font.pixelSize: Theme.fontSizeExtraSmall
@@ -68,29 +120,6 @@ Page {
             }
 
             AboutLabel {
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
-                text: "English: Marcel Witte\n"+
-                      "Deutsch: Marcel Witte\n"+
-                      "Español: ???\n"+
-                      "Suomi: specig, Tenho, direc85\n"+
-                      "Français: ???\n"+
-                      "Nederlands: ???\n"+
-                      "Magyar: Márton Miklós\n"+
-                      "Polski: atlochowski\n"+
-                      "Pусский: ???\n"+
-                      "Slovenčina: okruhliak\n"+
-                      "Svenska: Åke Engelbrektson\n"+
-                      "简体中文: dashinfantry"
-            }
-
-            AboutLabel {
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.secondaryColor
-                text: qsTr("GPSInfo is open source software licensed under the terms of the GNU General Public License.")
-            }
-
-            AboutLabel {
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryColor
                 text: qsTr("For suggestions, bugs and ideas visit ")
@@ -99,7 +128,7 @@ Page {
             Button {
                 text: "GitHub"
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: Qt.openUrlExternally("https://github.com/direc85/harbour-gpsinfo")
+                onClicked: Qt.openUrlExternally("https://github.com/leonidy-85/ru.yurasov.gpsinfo")
             }
 
             Item {

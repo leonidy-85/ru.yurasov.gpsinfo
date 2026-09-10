@@ -5,5 +5,11 @@
 *.qm
 *.spec*
 *.autosave
+*.kicad_prl
+*.kicad_pro
 RPMS
 shadow
+build/
+ru.yurasov.gpsinfo-backups/
+.opencode/
+.swarm/

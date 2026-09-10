@@ -10,38 +10,36 @@ SOURCES += \
     src/gpsinfo.cpp
 
 DISTFILES += \
-    qml/components/AppBarMenu.qml \
     qml/gpsinfo.qml \
-    qml/pages/SatelliteInfoPage.qml \
-    qml/pages/CoverPage.qml \
-    qml/pages/TabMainPage.qml \
-    qml/pages/TabMainPage.qml \
     qml/components/AboutLabel.qml \
-    qml/tabview/Util.js \
-    qml/tabview/TabView.qml \
-    qml/tabview/TabItem.qml \
-    qml/tabview/TabButton.qml \
+    qml/components/AppBarMenu.qml \
+    qml/components/DoubleSwitch.qml \
+    qml/components/InfoField.qml \
+    qml/components/LocationFormatter.qml \
+    qml/components/Providers.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/CoverPage.qml \
+    qml/pages/FirstPage.qml \
+    qml/pages/LicensePage.qml \
+    qml/pages/SatelliteBarchartPage.qml \
+    qml/pages/SatelliteInfoPage.qml \
+    qml/pages/SettingsPage.qml \
+    qml/pages/TabMainPage.qml \
     qml/tabview/TabBar.qml \
+    qml/tabview/TabButton.qml \
+    qml/tabview/TabItem.qml \
+    qml/tabview/TabView.qml \
+    qml/tabview/Util.js \
     qml/QChart/QChart.js \
     qml/QChart/QChart.qml \
+    qml/QChart/QChartGallery.js \
+    qml/QChart/QChartGallery.qml \
     qml/QChart/qmldir \
-    qml/components/AppBarMenu.qml \
-    qml/pages/FirstPage.qml \
-    qml/components/InfoField.qml \
-    qml/pages/SatelliteBarchartPage.qml \
-    qml/pages/SettingsPage.qml \
-    qml/LocationFormatter.qml \
-    qml/components/Providers.qml \
-    qml/components/DoubleSwitch.qml \
-    qml/pages/AboutPage.qml \
-    qml/pages/LicensePage.qml \
     rpm/ru.yurasov.gpsinfo.changes \
     rpm/ru.yurasov.gpsinfo.spec \
-    rpm/ru.yurasov.gpsinfo.yaml \
     ru.yurasov.gpsinfo.desktop
 
-AURORAAPP_ICONS = 86x86 108x108 128x128 172x172 256x256
-
+AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 HEADERS += \
     src/gpsdatasource.h \
     src/qmlsettingswrapper.h \
@@ -49,22 +47,15 @@ HEADERS += \
 
 QT += positioning
 
-TRANSLATIONS += \
-    translations/gpsinfo_de.ts \
-    translations/gpsinfo_es.ts \
-    translations/gpsinfo_fi.ts \
-    translations/gpsinfo_fr.ts \
-    translations/gpsinfo_hu.ts \
-    translations/gpsinfo_nl.ts \
-    translations/gpsinfo_pl.ts \
-    translations/gpsinfo_ru.ts \
-    translations/gpsinfo_sk.ts \
-    translations/gpsinfo_sv.ts \
-    translations/gpsinfo_zh_CN.ts
+TRANSLATIONS = translations/ru.yurasov.gpsinfo-ru.ts
 
 images.files = \
     images/coverbg.png
 
 #images.path = /usr/share/ru.yurasov.gpsinfo/images
-
 INSTALLS += images
+
+
+VERSION = $$system( egrep "^Version:\|^Release:" rpm/ru.yurasov.gpsinfo.spec |tr -d "[A-Z][a-z]: " | tr "\\\n" "-" | sed "s/\.$//g"| tr -d "[:space:]")
+
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"

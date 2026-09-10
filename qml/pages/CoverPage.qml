@@ -4,13 +4,13 @@ import "../components"
 
 CoverBackground {
 
-    Image {
-        id: bgimg
-        source: "../../images/coverbg.png"
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width
-        height: sourceSize.height * width / sourceSize.width
-    }
+//    Image {
+//        id: bgimg
+//        source: "../../images/coverbg.png"
+//        anchors.horizontalCenter: parent.horizontalCenter
+//        width: parent.width
+//        height: sourceSize.height * width / sourceSize.width
+//    }
     Column {
         id: column
         anchors.top: parent.top

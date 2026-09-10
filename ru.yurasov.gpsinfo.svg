@@ -2,25 +2,36 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="86"
    height="86"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="gpsinfo.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="ru.yurasov.gpsinfo.svg"
    inkscape:export-filename="harbour-gpsinfo.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-ydpi="90"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
+    <linearGradient
+       id="linearGradient3047">
+      <stop
+         style="stop-color:#0ec20a;stop-opacity:1;"
+         offset="0.19078948"
+         id="stop3043" />
+      <stop
+         style="stop-color:#06722a;stop-opacity:1;"
+         offset="1"
+         id="stop3045" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3789-6">
       <stop
@@ -34,15 +45,13 @@
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient3789-6"
-       id="linearGradient3925"
-       gradientUnits="userSpaceOnUse"
-       spreadMethod="reflect"
-       x1="40"
-       y1="80"
-       x2="40"
-       y2="10"
-       gradientTransform="matrix(-0.95555556,0,0,-0.95555556,86,90)" />
+       xlink:href="#linearGradient3047"
+       id="linearGradient3041"
+       x1="0.17677669"
+       y1="47.034077"
+       x2="85.979767"
+       y2="47.034077"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -51,19 +60,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="7.7580551"
-     inkscape:cy="49.946194"
+     inkscape:zoom="2"
+     inkscape:cx="-80.75"
+     inkscape:cy="-4.25"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
-     inkscape:window-width="1880"
-     inkscape:window-height="1060"
-     inkscape:window-x="38"
-     inkscape:window-y="-3"
+     inkscape:window-width="3440"
+     inkscape:window-height="1387"
+     inkscape:window-x="2560"
+     inkscape:window-y="391"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
-     inkscape:snap-global="true">
+     inkscape:snap-global="true"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid2985"
@@ -80,7 +92,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -90,11 +102,14 @@
      inkscape:label="Ebene"
      style="display:inline"
      transform="translate(0,-4)">
-    <path
-       style="fill:url(#linearGradient3925);fill-opacity:1;stroke:none;display:inline"
-       d="M 43,90 C 66.748244,90 86,70.748244 86,47 L 86,6.2097222 C 86,4.9813498 85.01865,4 83.790278,4 L 43,4 C 19.251756,4 0,23.251756 0,47 0,70.748244 19.251756,90 43,90 z"
-       id="rect3059"
-       inkscape:connector-curvature="0" />
+    <rect
+       style="display:inline;fill:url(#linearGradient3041);fill-opacity:1.0;stroke-width:0.996666"
+       id="rect2430"
+       width="85.802994"
+       height="85.979767"
+       x="0.17677669"
+       y="4.0441942"
+       inkscape:highlight-color="#66f335" />
     <path
        sodipodi:type="arc"
        style="fill:none;stroke:#ffffff;stroke-width:2.8241486;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"

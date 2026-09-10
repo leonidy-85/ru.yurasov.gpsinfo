@@ -1,50 +1,57 @@
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
 import "../components"
+import "../tabview" as Tabs
 
-Page {
-    id: page
+Tabs.TabItem  {
+    id: root
+    property real topMargin
+    anchors.fill: parent
+    flickable: flickable
 
-    allowedOrientations: Orientation.Portrait | Orientation.Landscape | Orientation.LandscapeInverted
-
-    property bool radarPagePushed: false
-    onStatusChanged: {
-        if(!radarPagePushed && status === PageStatus.Active) {
-            console.log("Push radarPage")
-            pageStack.pushAttached(radarPage)
-            radarPagePushed = true
-        }
-        if(!radarPage.barchartPagePushed && status === PageStatus.Inactive) {
-            radarPage.pagePushTimer.start()
-        }
+    AppBarMenu {
+          property string namePage: "GPSInfo"
     }
+
+
+//    allowedOrientations: Orientation.Portrait | Orientation.Landscape | Orientation.LandscapeInverted
+
     states: [
         State {
             name: 'landscape';
             when: orientation === Orientation.Landscape || orientation === Orientation.LandscapeInverted;
             PropertyChanges {
                 target: column;
-                anchors.leftMargin: page.width * 0.125;
-                anchors.rightMargin: page.width * 0.125;
+                anchors.leftMargin: root.width * 0.125;
+                anchors.rightMargin: root.width * 0.125;
             }
         }
     ]
+//    property bool radarPagePushed: false
+//    onStatusChanged: {
+//        if(!radarPagePushed && status === PageStatus.Active) {
+//            pageStack.pushAttached(radarPage)
+//            radarPagePushed = true
+//        }
+//        if(!radarPage.barchartPagePushed && status === PageStatus.Inactive) {
+//            radarPage.pagePushTimer.start()
+//        }
+//    }
 
     SilicaFlickable {
         anchors.fill: parent
-
-        MainMenu { }
 
         contentHeight: pageHeader.height + column.height;
 
         PageHeader {
             id: pageHeader
-            title: qsTr("GPSInfo")
         }
+
 
         Column {
             id: column
             spacing: Theme.paddingLarge
+
             anchors {
                 top: pageHeader.bottom
                 left: parent.left
@@ -181,18 +188,17 @@ Page {
                 value: providers.gps.active ? providers.gps.numberOfUsedSatellites + " / " + providers.gps.numberOfVisibleSatellites : "-"
             }
             SectionHeader {
-                visible: settings.showCompassDirectionApp
-                text: "Compass"
+                text: qsTr("Compass")
             }
             InfoField {
                 label: qsTr("Direction")
                 visible: settings.showCompassDirectionApp
-                value: providers.compass.reading === null ? "-" : locationFormatter.formatDirection(providers.compass.reading.azimuth)
+                value: providers.compass.reading == null ? "-" : locationFormatter.formatDirection(providers.compass.reading.azimuth)
             }
             InfoField {
                 label: qsTr("Calibration")
                 visible: settings.showCompassCalibrationApp
-                value: providers.compass.reading === null ? "-" : Math.round(providers.compass.reading.calibrationLevel * 100) + "%"
+                value: providers.compass.reading == null ? "-" : Math.round(providers.compass.reading.calibrationLevel * 100) + "%"
             }
             InfoField { // Needs QtPositioning 5.4
                 label: qsTr("Magnetic Declination")
@@ -217,4 +223,19 @@ Page {
             }
         }
     }
+
+    ListModel {
+            id: tabModel
+
+            ListElement {
+                //% "Favorites"
+                title: qsTrId("contacts-mp-favorites")
+                icon: "image://theme/icon-splus-favorite"
+            }
+            ListElement {
+                //% "Contacts"
+                title: qsTrId("contacts-mp-contacts")
+                icon: "image://theme/icon-splus-contact"
+            }
+        }
 }

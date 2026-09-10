@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtPositioning 5.2
 import QtSensors 5.0
-import Harbour.GPSInfo 1.0
+import Yurasov.GPSInfo 1.0
 import Sailfish.Silica 1.0
 import "../components"
 
@@ -27,7 +27,7 @@ Item {
 
     PositionSource {
         id: positionSource
-        updateInterval: settings.updateInterval
+        updateInterval: settings.updateInterval * 1000
         active: true
         //timestamp seems to be the only way to know gps has a new fix
         position.onTimestampChanged: {
@@ -44,7 +44,7 @@ Item {
 
     GPSDataSource {
         id: gpsDataSource
-        updateInterval: settings.updateInterval
+        updateInterval: settings.updateInterval * 1000
         active: true
         Component.onCompleted:{ //as onActiveChanged is not fired at startup
             onActiveChanged(null)

@@ -1,6 +1,6 @@
 #include "gpsinfosettings.h"
 
 GPSInfoSettings::GPSInfoSettings(QObject *parent) :
-    QMLSettingsWrapper("harbour-gpsinfo", "harbour-gpsinfo", parent)
+    QMLSettingsWrapper("ru.yurasov.gpsinfo", "ru.yurasov.gpsinfo", parent)
 {
 }

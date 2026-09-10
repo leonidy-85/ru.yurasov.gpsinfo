@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<GPSDataSource>("Yurasov.GPSInfo", 1, 0, "GPSDataSource");
     qmlRegisterType<GPSSatellite>();
     GPSInfoSettings* settings = new GPSInfoSettings();
+
     QGuiApplication* qGuiAppl = Application::application(argc, argv);
     QStringList locales;
     QString baseName("/usr/share/ru.yurasov.gpsinfo/translations/");
@@ -37,6 +38,7 @@ int main(int argc, char *argv[]) {
 
     QQuickView *view = Application::createView();
     view->rootContext()->setContextProperty("settings", settings);
+    view->rootContext()->setContextProperty("version", APP_VERSION);
     view->setSource(Application::pathTo("qml/gpsinfo.qml"));
     view->showFullScreen();
     return qGuiAppl->exec();

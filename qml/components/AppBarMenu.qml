@@ -1,5 +1,70 @@
 import QtQuick 2.0
+import Sailfish.Silica 1.0
+import Aurora.Controls 1.0
 
-Item {
 
-}
+    AppBar {
+        id: topAppBar
+
+        headerText: (namePage==="GPSInfo") ? qsTr("GPSInfo") : (namePage==="Satellite signal strengths") ? qsTr("Satellite signal strengths") : (namePage==="Satellite Info") ?  qsTr("Satellite Info") : qsTr(" error")
+//        if (namePage===2)
+//        headerText: qsTr("Satellite signal strengths")
+//        if (namePage===3)
+//        headerText: qsTr("GPSInfo3")
+
+        headerClickable: false
+        visible: opacity > 0
+        Behavior on opacity { FadeAnimation {} }
+
+
+               AppBarSpacer {}
+
+                AppBarButton {
+                  id: appBarMenuButton
+                  icon.source: "image://theme/icon-m-more"
+                  onClicked: mainPopup.open()
+
+                  PopupMenu {
+                      id: mainPopup
+                      PopupMenuItem {
+                          text: qsTr("About")
+                          onClicked: pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
+                      }
+
+                      PopupMenuItem {
+                          text: qsTr("Settings")
+                          onClicked: pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
+                      }
+
+                      PopupMenuItem {
+                          text: providers.position.active ? qsTr("Deactivate GPS") : qsTr("Activate GPS")
+                          onClicked: {
+                              providers.toggleActive()
+                          }
+                      }
+
+                      PopupMenuItem {
+                      enabled: providers.gps.active
+                      text: qsTr("Copy location")
+                      onClicked: {
+                          if (settings.coordinateFormat === "DEG") {
+                              Clipboard.text = locationFormatter.decimalLatToDMS(providers.position.position.coordinate.latitude, 2)
+                                      + ", "
+                                      + locationFormatter.decimalLongToDMS(providers.position.position.coordinate.longitude, 2);
+                          } else {
+                              Clipboard.text = providers.position.position.coordinate.latitude
+                                      + ", "
+                                      + providers.position.position.coordinate.longitude
+                           }
+                         }
+                       }
+                  }
+
+              }
+                AppBarSpacer {
+                fixedWidth : 25
+                }
+
+          }
+
+

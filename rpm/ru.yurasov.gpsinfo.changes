@@ -1,3 +1,9 @@
+* Thu Sep 10 2026 Yurasov Leonid 0.15.2-3
+- Port to Aurora OS 5.2
+- Rename package and configuration to ru.yurasov.gpsinfo
+- Update satellites incrementally instead of recreating them
+- Fix update interval being passed to Qt in seconds instead of milliseconds
+
 * Wed July 17 2024 Yurasov Leonid 0.15.1-3
 - Replace menu to AppBar
 

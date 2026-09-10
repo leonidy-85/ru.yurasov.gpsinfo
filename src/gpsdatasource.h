@@ -3,8 +3,10 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QMap>
+#include <QHash>
+#include <QSet>
 #include <QTimer>
+#include <QAbstractListModel>
 #include <QGeoSatelliteInfoSource>
 #include <QGeoPositionInfoSource>
 #include "gpsinfosettings.h"
@@ -49,10 +51,39 @@ signals:
     void signalStrengthChanged(int signalStrength);
 };
 
+class GPSSatelliteModel : public QAbstractListModel
+{
+    Q_OBJECT
+public:
+    enum SatelliteRoles {
+        SatelliteRole = Qt::UserRole + 1
+    };
+
+    explicit GPSSatelliteModel(QObject *parent = 0);
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QHash<int, QByteArray> roleNames() const;
+
+    QList<GPSSatellite*> getSatellites() const { return this->satellites; }
+
+    // Update the model from a satellites-in-view report, adding new satellites,
+    // updating existing ones and removing the ones that disappeared.
+    void reconcile(const QList<QGeoSatelliteInfo> &infos, bool showAll);
+    // Mark the given satellites as in use and clear the flag on the rest.
+    void markInUse(const QList<QGeoSatelliteInfo> &infos);
+    void clear();
+
+private:
+    int indexOf(int identifier) const;
+    QList<GPSSatellite*> satellites;
+};
+
 class GPSDataSource : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantList satellites READ getSatellites NOTIFY satellitesChanged)
+    Q_PROPERTY(QAbstractListModel* satelliteModel READ getSatelliteModel CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(int updateInterval READ getUpdateInterval WRITE setUpdateInterval NOTIFY updateIntervalChanged)
     Q_PROPERTY(qreal movementDirection READ getMovementDirection WRITE setMovementDirection NOTIFY movementDirectionChanged)
@@ -64,7 +95,7 @@ private:
     QTimer SimulatorTimer;
     QGeoSatelliteInfoSource* sSource;
     QGeoPositionInfoSource* pSource;
-    QMap<int, GPSSatellite*> satellites;
+    GPSSatelliteModel* satelliteModel;
     bool active;
     qreal movementDirection = qQNaN();
     int numberOfUsedSatellites;
@@ -75,6 +106,7 @@ public slots:
     int getNumberOfUsedSatellites() {return this->numberOfUsedSatellites;}
     int getNumberOfVisibleSatellites() {return this->numberOfVisibleSatellites;}
     QVariantList getSatellites();
+    QAbstractListModel* getSatelliteModel() { return this->satelliteModel; }
     int getUpdateInterval() {if (this->sSource) return this->sSource->updateInterval(); return -1;}
     bool isActive() {return this->active;}
     void positionUpdated(QGeoPositionInfo info);

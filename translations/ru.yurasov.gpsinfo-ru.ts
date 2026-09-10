@@ -2,26 +2,96 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name></name>
+    <message id="contacts-mp-favorites">
+        <source>Favorites</source>
+        <translation></translation>
+    </message>
+    <message id="contacts-mp-contacts">
+        <source>Contacts</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>AboutPage</name>
     <message>
         <source>An app to show all position information</source>
         <translation>Отображение информации о местоположении</translation>
     </message>
     <message>
-        <source>View license</source>
-        <translation>Лицензия</translation>
-    </message>
-    <message>
         <source>For suggestions, bugs and ideas visit </source>
         <translation>Для предложений и замечаний: </translation>
     </message>
     <message>
-        <source>GPSInfo is open source software licensed under the terms of the GNU General Public License.</source>
-        <translation>GPSInfo это программа с открытым исходным кодом, лицензированная на условиях GNU GPL.</translation>
+        <source>Version </source>
+        <translation>Версия </translation>
     </message>
     <message>
-        <source>Version</source>
-        <translation>Версия</translation>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>Donate</source>
+        <translation>Поддержка</translation>
+    </message>
+    <message>
+        <source>Your help allows us to make this project better.</source>
+        <translation>Ваша помощь, позволяет делать этот проект лучше</translation>
+    </message>
+    <message>
+        <source>If you like the app, you can donate to the author of the app via </source>
+        <translation>Если вам понравилось приложение, вы можете пожертвовать автору приложения через </translation>
+    </message>
+    <message>
+        <source> or </source>
+        <translation> или </translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Автор</translation>
+    </message>
+    <message>
+        <source>Adaptation for Aurora Leonid Yurasov </source>
+        <translation>Адаптация под Аврору: Леонид Юрасов</translation>
+    </message>
+</context>
+<context>
+    <name>AppBarMenu</name>
+    <message>
+        <source>GPSInfo</source>
+        <translation>GPS Инфо</translation>
+    </message>
+    <message>
+        <source>Satellite signal strengths</source>
+        <translation>Уровень сигнала</translation>
+    </message>
+    <message>
+        <source>Satellite Info</source>
+        <translation>Информация о спутниках</translation>
+    </message>
+    <message>
+        <source> error</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <source>Deactivate GPS</source>
+        <translation>Отключить GPS</translation>
+    </message>
+    <message>
+        <source>Activate GPS</source>
+        <translation>Включить GPS</translation>
+    </message>
+    <message>
+        <source>Copy location</source>
+        <translation>Скопировать местоположение</translation>
     </message>
 </context>
 <context>
@@ -72,7 +142,7 @@
     </message>
     <message>
         <source>Com.</source>
-        <translation>Комп.</translation>
+        <translation>Напр.</translation>
     </message>
     <message>
         <source>m/s</source>
@@ -92,14 +162,14 @@
     </message>
     <message>
         <source>Cal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Калиболвкака</translation>
     </message>
 </context>
 <context>
     <name>FirstPage</name>
     <message>
-        <source>GPSInfo</source>
-        <translation>Информация GPS</translation>
+        <source></source>
+        <translation></translation>
     </message>
     <message>
         <source>GPS</source>
@@ -107,11 +177,11 @@
     </message>
     <message>
         <source>active</source>
-        <translation>Активен</translation>
+        <translation>активен</translation>
     </message>
     <message>
         <source>inactive</source>
-        <translation>Неактивен</translation>
+        <translation>неактивен</translation>
     </message>
     <message>
         <source>Latitude</source>
@@ -126,28 +196,8 @@
         <translation>Высота</translation>
     </message>
     <message>
-        <source>Last update</source>
-        <translation>Посл. обновление</translation>
-    </message>
-    <message>
-        <source>Horizontal accuracy</source>
-        <translation>Горизонт. точность</translation>
-    </message>
-    <message>
         <source>Speed</source>
         <translation>Скорость</translation>
-    </message>
-    <message>
-        <source>Vertical accuracy</source>
-        <translation>Верт. точность</translation>
-    </message>
-    <message>
-        <source>Satellites in use / view</source>
-        <translation>Спутников исп. / вид.</translation>
-    </message>
-    <message>
-        <source>Movement direction</source>
-        <translation>Направл. движения</translation>
     </message>
     <message>
         <source>m/s</source>
@@ -159,27 +209,51 @@
     </message>
     <message>
         <source>ft/s</source>
-        <translation>фут/с</translation>
+        <translation></translation>
     </message>
     <message>
         <source>mph</source>
         <translation>миль/ч</translation>
     </message>
     <message>
+        <source>Movement direction</source>
+        <translation>Направление движения</translation>
+    </message>
+    <message>
+        <source>Last update</source>
+        <translation>Последнее обновление</translation>
+    </message>
+    <message>
         <source>Time to First Fix</source>
-        <translation type="unfinished"></translation>
+        <translation>Время первого исправления</translation>
+    </message>
+    <message>
+        <source>Vertical accuracy</source>
+        <translation>Точность по вертикали</translation>
+    </message>
+    <message>
+        <source>Horizontal accuracy</source>
+        <translation>Точность по горизонтали</translation>
+    </message>
+    <message>
+        <source>Satellites in use / view</source>
+        <translation>Спутников исп. / вид.</translation>
+    </message>
+    <message>
+        <source>Compass</source>
+        <translation>Компас</translation>
     </message>
     <message>
         <source>Direction</source>
-        <translation type="unfinished"></translation>
+        <translation>Направление</translation>
     </message>
     <message>
         <source>Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation>Калибровка</translation>
     </message>
     <message>
         <source>Magnetic Declination</source>
-        <translation type="unfinished"></translation>
+        <translation>Магнитное склонение</translation>
     </message>
 </context>
 <context>
@@ -187,117 +261,94 @@
     <message>
         <source>M</source>
         <comment>Magnetic North</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>N</source>
         <comment>North</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>S</source>
         <comment>South</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>E</source>
         <comment>East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>W</source>
         <comment>West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>NNE</source>
         <comment>North North East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>NE</source>
         <comment>North East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>ENE</source>
         <comment>East North East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>ESE</source>
         <comment>East South East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>SE</source>
         <comment>South East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>SSE</source>
         <comment>South South East</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>SSW</source>
         <comment>South South West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>SW</source>
         <comment>South West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>WSW</source>
         <comment>West South West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>WNW</source>
         <comment>West North West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>NW</source>
         <comment>Norh West</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>NNW</source>
         <comment>North North West</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainMenu</name>
-    <message>
-        <source>About</source>
-        <translation type="unfinished">О программе</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished">Настройки</translation>
-    </message>
-    <message>
-        <source>Deactivate GPS</source>
-        <translation type="unfinished">Отключить GPS</translation>
-    </message>
-    <message>
-        <source>Activate GPS</source>
-        <translation type="unfinished">Включить GPS</translation>
-    </message>
-    <message>
-        <source>Copy location</source>
-        <translation type="unfinished">Скопировать местоположение</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>Providers</name>
     <message>
         <source>Time to First Fix</source>
-        <translation type="unfinished"></translation>
+        <translation>Время первого исправления</translation>
     </message>
 </context>
 <context>
@@ -306,17 +357,9 @@
         <source>Satellites in use / view</source>
         <translation>Спутников исп. / вид.</translation>
     </message>
-    <message>
-        <source>Satellite signal strengths</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SatelliteInfoPage</name>
-    <message>
-        <source>Satellite Info</source>
-        <translation>Информация о спутниках</translation>
-    </message>
     <message>
         <source>Satellites in use / view</source>
         <translation>Спутников исп. / вид.</translation>
@@ -438,52 +481,67 @@
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished">да</translation>
+        <translation>да</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished">нет</translation>
+        <translation>нет</translation>
     </message>
     <message>
         <source>Rotate satellite view</source>
-        <translation type="unfinished"></translation>
+        <translation>Поварачивать вид по компасу</translation>
     </message>
     <message>
         <source>Show empty channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать пустые каналы</translation>
     </message>
     <message>
         <source>Satellite bar chart order</source>
-        <translation type="unfinished"></translation>
+        <translation>Порядок спутниковой гистограммы</translation>
     </message>
     <message>
         <source>identifier</source>
         <comment>&apos;Number&apos; of the satellite</comment>
-        <translation type="unfinished"></translation>
+        <translation>Идентификатор</translation>
     </message>
     <message>
         <source>signal strength</source>
-        <translation type="unfinished"></translation>
+        <translation>Уровень сигнала</translation>
     </message>
     <message>
         <source>Compass Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation>Калибровка компаса</translation>
     </message>
     <message>
         <source>Magnetic Declination</source>
-        <translation type="unfinished"></translation>
+        <translation>Магнитное склонение</translation>
     </message>
     <message>
         <source>Local declination</source>
-        <translation type="unfinished"></translation>
+        <translation>Местное склонение</translation>
     </message>
     <message>
         <source>Show magnetic north</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать магнитный север</translation>
     </message>
     <message>
         <source>Show movement direction</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать направление движения</translation>
+    </message>
+</context>
+<context>
+    <name>TabMainPage</name>
+    <message>
+        <source>GPSInfo</source>
+        <translation>GPS Инфо</translation>
+    </message>
+    <message>
+        <source>radarPage</source>
+        <translation>Положение спутников</translation>
+    </message>
+    <message>
+        <source>barchartPage</source>
+        <translation>Уровень приема</translation>
     </message>
 </context>
 </TS>

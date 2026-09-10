@@ -2,11 +2,151 @@
 #include <QDebug>
 
 GPSSatellite::GPSSatellite(QObject *parent) :
-    QObject(parent) {
+    QObject(parent),
+    azimuth(0),
+    elevation(0),
+    identifier(0),
+    system(0),
+    inUse(false),
+    signalStrength(0) {
+}
+
+GPSSatelliteModel::GPSSatelliteModel(QObject *parent) :
+    QAbstractListModel(parent) {
+}
+
+int GPSSatelliteModel::rowCount(const QModelIndex &parent) const {
+    if (parent.isValid()) {
+        return 0;
+    }
+    return this->satellites.size();
+}
+
+QVariant GPSSatelliteModel::data(const QModelIndex &index, int role) const {
+    if (!index.isValid() || index.row() < 0 || index.row() >= this->satellites.size()) {
+        return QVariant();
+    }
+    if (role == Qt::DisplayRole || role == SatelliteRole) {
+        return QVariant::fromValue(this->satellites.at(index.row()));
+    }
+    return QVariant();
+}
+
+QHash<int, QByteArray> GPSSatelliteModel::roleNames() const {
+    QHash<int, QByteArray> roles;
+    roles[Qt::DisplayRole] = "modelData";
+    roles[SatelliteRole] = "satellite";
+    return roles;
+}
+
+int GPSSatelliteModel::indexOf(int identifier) const {
+    for (int row = 0; row < this->satellites.size(); ++row) {
+        if (this->satellites.at(row)->getIdentifier() == identifier) {
+            return row;
+        }
+    }
+    return -1;
+}
+
+void GPSSatelliteModel::reconcile(const QList<QGeoSatelliteInfo> &infos, bool showAll) {
+    QList<QGeoSatelliteInfo> desired;
+    for (auto info = infos.cbegin(); info < infos.cend(); info++) {
+        if (showAll || info->signalStrength() > 0) {
+            desired.append(*info);
+        }
+    }
+
+    // Drop satellites that are no longer in view.
+    for (int row = this->satellites.size() - 1; row >= 0; --row) {
+        int identifier = this->satellites.at(row)->getIdentifier();
+        bool found = false;
+        for (auto info = desired.cbegin(); info < desired.cend(); info++) {
+            if (info->satelliteIdentifier() == identifier) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            beginRemoveRows(QModelIndex(), row, row);
+            GPSSatellite* sat = this->satellites.takeAt(row);
+            endRemoveRows();
+            sat->deleteLater();
+        }
+    }
+
+    // Add new satellites and update the existing ones in place.
+    for (auto info = desired.cbegin(); info < desired.cend(); info++) {
+        int row = this->indexOf(info->satelliteIdentifier());
+        if (row < 0) {
+            GPSSatellite* sat = new GPSSatellite(this);
+            sat->setIdentifier(info->satelliteIdentifier());
+            sat->setSystem(info->satelliteSystem());
+            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
+            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
+            sat->setSignalStrength(info->signalStrength());
+            sat->setInUse(false);
+            beginInsertRows(QModelIndex(), this->satellites.size(), this->satellites.size());
+            this->satellites.append(sat);
+            endInsertRows();
+        } else {
+            GPSSatellite* sat = this->satellites.at(row);
+            sat->setSystem(info->satelliteSystem());
+            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
+            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
+            sat->setSignalStrength(info->signalStrength());
+            emit dataChanged(index(row), index(row));
+        }
+    }
+}
+
+void GPSSatelliteModel::markInUse(const QList<QGeoSatelliteInfo> &infos) {
+    QSet<int> inUse;
+    for (auto info = infos.cbegin(); info < infos.cend(); info++) {
+        inUse.insert(info->satelliteIdentifier());
+    }
+
+    for (int row = 0; row < this->satellites.size(); ++row) {
+        GPSSatellite* sat = this->satellites.at(row);
+        bool used = inUse.contains(sat->getIdentifier());
+        if (sat->isInUse() != used) {
+            sat->setInUse(used);
+            emit dataChanged(index(row), index(row));
+        }
+    }
+
+    // In-use satellites missing from the view report are still added.
+    for (auto info = infos.cbegin(); info < infos.cend(); info++) {
+        if (this->indexOf(info->satelliteIdentifier()) < 0) {
+            GPSSatellite* sat = new GPSSatellite(this);
+            sat->setIdentifier(info->satelliteIdentifier());
+            sat->setSystem(info->satelliteSystem());
+            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
+            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
+            sat->setSignalStrength(info->signalStrength());
+            sat->setInUse(true);
+            beginInsertRows(QModelIndex(), this->satellites.size(), this->satellites.size());
+            this->satellites.append(sat);
+            endInsertRows();
+        }
+    }
+}
+
+void GPSSatelliteModel::clear() {
+    if (this->satellites.isEmpty()) {
+        return;
+    }
+    beginResetModel();
+    QList<GPSSatellite*> old = this->satellites;
+    this->satellites.clear();
+    endResetModel();
+    foreach (GPSSatellite* sat, old) {
+        sat->deleteLater();
+    }
 }
 
 GPSDataSource::GPSDataSource(QObject *parent) :
     QObject(parent), SimulatorTimer(this),
+    satelliteModel(new GPSSatelliteModel(this)),
     numberOfUsedSatellites(0),
     numberOfVisibleSatellites(0)
 {
@@ -31,42 +171,15 @@ GPSDataSource::GPSDataSource(QObject *parent) :
 }
 
 void GPSDataSource::satellitesInUseUpdated(const QList<QGeoSatelliteInfo> &infos) {
-    for(auto info = infos.cbegin(); info < infos.cend(); info++) {
-        if (!this->satellites.contains(info->satelliteIdentifier())) {
-            GPSSatellite* sat = new GPSSatellite(this);
-            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
-            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
-            sat->setIdentifier(info->satelliteIdentifier());
-            sat->setSystem(info->satelliteSystem());
-            sat->setInUse(true);
-            sat->setSignalStrength(info->signalStrength());
-            this->satellites[info->satelliteIdentifier()] = sat;
-        } else {
-            this->satellites[info->satelliteIdentifier()]->setInUse(true);
-        }
-    }
+    this->satelliteModel->markInUse(infos);
     emit this->satellitesChanged();
     this->setNumberOfUsedSatellites(infos.size());
 }
 
 void GPSDataSource::satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &infos) {
-    qDeleteAll(this->satellites);
-    this->satellites.clear();
-    bool showAll = this->settings.getShowEmptyChannels();
-    for(auto info = infos.cbegin(); info < infos.cend(); info++) {
-        if(showAll || info->signalStrength() > 0) {
-            GPSSatellite* sat = new GPSSatellite(this);
-            sat->setAzimuth(info->attribute(QGeoSatelliteInfo::Azimuth));
-            sat->setElevation(info->attribute(QGeoSatelliteInfo::Elevation));
-            sat->setIdentifier(info->satelliteIdentifier());
-            sat->setSystem(info->satelliteSystem());
-            sat->setInUse(false);
-            sat->setSignalStrength(info->signalStrength());
-            this->satellites[info->satelliteIdentifier()] = sat;
-        }
-    }
+    this->satelliteModel->reconcile(infos, this->settings.getShowEmptyChannels());
     emit this->satellitesChanged();
-    this->setNumberOfVisibleSatellites(satellites.size());
+    this->setNumberOfVisibleSatellites(this->satelliteModel->rowCount());
 }
 
 void GPSDataSource::positionUpdated(QGeoPositionInfo info) {
@@ -74,9 +187,8 @@ void GPSDataSource::positionUpdated(QGeoPositionInfo info) {
 }
 
 QVariantList GPSDataSource::getSatellites() {
-    QList<GPSSatellite*> sats = this->satellites.values();
     QVariantList result;
-    foreach (GPSSatellite* sat, sats) {
+    foreach (GPSSatellite* sat, this->satelliteModel->getSatellites()) {
         result << QVariant::fromValue(sat);
     }
     return result;
@@ -98,33 +210,34 @@ void GPSDataSource::setActive(bool active) {
         return;
     }
     if (!this->active && active) {
-        if (this->sSource) {
-            qDebug() << "activating source...";
-            this->sSource->startUpdates();
+        qDebug() << "activating source...";
+        this->sSource->startUpdates();
+        if (this->pSource) {
             this->pSource->startUpdates();
-            this->active = true;
-            emit this->activeChanged(true);
         }
+        this->active = true;
+        emit this->activeChanged(true);
     } else if (this->active && !active) {
-        if (this->sSource) {
-            qDebug() << "deactivating source...";
-            this->sSource->stopUpdates();
+        qDebug() << "deactivating source...";
+        this->sSource->stopUpdates();
+        if (this->pSource) {
             this->pSource->stopUpdates();
-            this->active = false;
-            qDeleteAll(this->satellites);
-            this->satellites.clear();
-            emit this->activeChanged(false);
-            emit this->satellitesChanged();
         }
+        this->active = false;
+        this->satelliteModel->clear();
+        emit this->activeChanged(false);
+        emit this->satellitesChanged();
     }
 }
 
 void GPSDataSource::setUpdateInterval(int updateInterval) {
-    if (this->sSource){
+    if (this->sSource) {
         this->sSource->setUpdateInterval(updateInterval);
-        this->pSource->setUpdateInterval(updateInterval);
-        emit this->updateIntervalChanged(updateInterval);
     }
+    if (this->pSource) {
+        this->pSource->setUpdateInterval(updateInterval);
+    }
+    emit this->updateIntervalChanged(updateInterval);
 }
 
 void GPSDataSource::SimulatorTimeout()

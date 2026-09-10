@@ -2,29 +2,39 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtGraphicalEffects 1.0
 import "../components"
+import "../tabview" as Tabs
 
-Page {
+Tabs.TabItem  {
+
     id: satelliteInfoPage
 
-    allowedOrientations: Orientation.Portrait | Orientation.Landscape | Orientation.LandscapeInverted
+//    property real topMargin
+
+//    anchors.fill: parent
+//    flickable: flickable
+
+
+    AppBarMenu {
+          property string namePage: "Satellite Info"
+    }
+
+//    allowedOrientations: Orientation.Portrait | Orientation.Landscape | Orientation.LandscapeInverted
 
     property int declination: settings.magneticDeclination === undefined ? 0 : settings.magneticDeclination
-    property variant satellites: status === PageStatus.Inactive ? [] : providers.gps.satellites;
-    property variant sortedSatellites: status === PageStatus.Inactive ? [] : providers.gps.satellites.sort(function(a,b) {return (a.inUse ? 1:-1) - (b.inUse ? 1:-1)}) //so we can draw InUse sats on top...
 
     states: [
         State {
             name: 'landscape';
-            when: orientation === Orientation.Landscape || orientation === Orientation.LandscapeInverted;
+            when: orientation == Orientation.Landscape || orientation === Orientation.LandscapeInverted;
             AnchorChanges {
                 target: radar;
                 anchors.horizontalCenter: undefined;
-                anchors.left: satelliteInfoPage.left;
+                anchors.left: tabMainPage.left;
             }
             PropertyChanges {
                 target: satellitesInfo;
-                width: satelliteInfoPage.width / 2;
-                anchors.leftMargin: satelliteInfoPage.width / 2.2;
+                width: tabMainPage.width / 2;
+                anchors.leftMargin: tabMainPage.width / 2.2;
             }
         }
     ]
@@ -37,7 +47,7 @@ Page {
         repeat: false
         running: false
         onTriggered: {
-            if(!barchartPagePushed && satelliteInfoPage.status === PageStatus.Active) {
+            if(!barchartPagePushed && tabMainPage.status === PageStatus.Active) {
                 console.log("Push barchartPage")
                 pageStack.pushAttached(barchartPage)
                 barchartPagePushed = true
@@ -54,13 +64,6 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
-
-        MainMenu { }
-
-        PageHeader {
-            title: qsTr("Satellite Info")
-        }
-
 
         // Radar background gradient is symmetrical,
         // so we don't have to waste cycles rotating it.
@@ -111,7 +114,7 @@ Page {
             // At least with Jolla Phone, the reading must be negated
             // so that the compass turns in correct direction.
 
-            property int north: !settings.rotate || status === PageStatus.Inactive || providers.compass.reading === null ? 0 : -providers.compass.reading.azimuth - declination;
+            property int north: !settings.rotate || status == PageStatus.Inactive || providers.compass.reading == null ? 0 : -providers.compass.reading.azimuth - declination;
             rotation: north
 
             // At least with Sony Xperia XA2, the compass value is updated
@@ -168,12 +171,12 @@ Page {
 
                 delegate:
                     Label {
-                    x: center + Math.sin((index !== 4 ? (index * 90) : declination) * Math.PI / 180) * (radius+width/2) - width / 2.0
-                    y: center - Math.cos((index !== 4 ? (index * 90) : declination) * Math.PI / 180) * (radius+width/2) - height / 2.0
+                    x: center + Math.sin((index != 4 ? (index * 90) : declination) * Math.PI / 180) * (radius+width/2) - width / 2.0
+                    y: center - Math.cos((index != 4 ? (index * 90) : declination) * Math.PI / 180) * (radius+width/2) - height / 2.0
                     color: ["white","white","red"][iN]
                     font.weight: Font.Bold
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    property int iN: ((index !== 4 || !providers.compass.reading) ? 0 : (providers.compass.reading.calibrationLevel > 0.99 ? 1 : 2))
+                    property int iN: ((index != 4 || !providers.compass.reading) ? 0 : (providers.compass.reading.calibrationLevel > 0.99 ? 1 : 2))
                     text: " "+[modelData,qsTr(locationFormatter.mag),"?"][iN]+" "
 
 
@@ -196,9 +199,10 @@ Page {
             // Satellite identifiers (numbers), and their respective box rssi color and inUse border
             // first draw them all solid , hiding the radar chart background, and ensuring colors are correct
             Repeater {
-                model: status === PageStatus.Inactive ? [] : sortedSatellites
+                model: providers.gps.satelliteModel
                 delegate:
                     Label {
+                    z: modelData.inUse ? 1 : 0
                     x: center + Math.sin((modelData.azimuth) * Math.PI / 180) * radius * Math.cos(modelData.elevation * Math.PI / 180) - width / 2.0
                     y: center - Math.cos((modelData.azimuth) * Math.PI / 180) * radius * Math.cos(modelData.elevation * Math.PI / 180) - height / 2.0
                     font.weight: Font.Bold
@@ -233,10 +237,11 @@ Page {
             // Satellite identifiers (numbers), and their respective box rssi color and inUse border
             //now draw transparent, so that overlaid numbers can be read.
             Repeater {
-                //sort active sats on top.
-                model: status === PageStatus.Inactive ? [] : sortedSatellites
+                //draw active sats on top.
+                model: providers.gps.satelliteModel
                 delegate:
                     Label {
+                    z: modelData.inUse ? 1 : 0
                     x: center + Math.sin((modelData.azimuth) * Math.PI / 180) * radius * Math.cos(modelData.elevation * Math.PI / 180) - width / 2.0
                     y: center - Math.cos((modelData.azimuth) * Math.PI / 180) * radius * Math.cos(modelData.elevation * Math.PI / 180) - height / 2.0
                     font.weight: Font.Bold
