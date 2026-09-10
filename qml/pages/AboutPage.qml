@@ -105,11 +105,24 @@ Page {
             SectionHeader {
                 text: qsTr("Author")
             }
-            Label {
-                text: qsTr("Adaptation for Aurora Leonid Yurasov ")
-                anchors.horizontalCenter: parent.horizontalCenter
+            AboutLabel {
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.primaryColor
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                text: qsTr("Aurora adaptation, development and improvements by Leonid Yurasov — this is not just a port, the app is being actively refined.")
             }
-
+            AboutLabel {
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryColor
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                text: qsTr("Other programs by the author: ") + "<a href=\"https://github.com/leonidy-85\">github.com/leonidy-85</a>"
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
 
             AboutLabel {
                 font.pixelSize: Theme.fontSizeExtraSmall

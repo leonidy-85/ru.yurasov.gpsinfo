@@ -44,12 +44,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="109"/>
-        <source>Adaptation for Aurora Leonid Yurasov </source>
+        <location filename="../qml/pages/AboutPage.qml" line="114"/>
+        <source>Aurora adaptation, development and improvements by Leonid Yurasov — this is not just a port, the app is being actively refined.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="126"/>
+        <location filename="../qml/pages/AboutPage.qml" line="122"/>
+        <source>Other programs by the author: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="139"/>
         <source>For suggestions, bugs and ideas visit </source>
         <translation type="unfinished"></translation>
     </message>

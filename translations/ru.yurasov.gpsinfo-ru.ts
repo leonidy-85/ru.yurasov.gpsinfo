@@ -40,8 +40,12 @@
         <translation>Автор</translation>
     </message>
     <message>
-        <source>Adaptation for Aurora Leonid Yurasov </source>
-        <translation>Адаптация под Аврору: Леонид Юрасов</translation>
+        <source>Aurora adaptation, development and improvements by Leonid Yurasov — this is not just a port, the app is being actively refined.</source>
+        <translation>Адаптация для Авроры, разработка и доработка Леонида Юрасова — это не просто порт, приложение активно развивается.</translation>
+    </message>
+    <message>
+        <source>Other programs by the author: </source>
+        <translation>Другие программы автора: </translation>
     </message>
 </context>
 <context>
