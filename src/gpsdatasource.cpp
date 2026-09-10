@@ -230,11 +230,11 @@ void GPSDataSource::setActive(bool active) {
     }
 }
 
-void GPSDataSource::setUpdateInterval(int updateInterval) {
+void GPSDataSource::setUpdateIntervalMs(int updateInterval) {
     if (this->sSource) {
         this->sSource->setUpdateInterval(updateInterval);
     }
-    emit this->updateIntervalChanged(updateInterval);
+    emit this->updateIntervalMsChanged(updateInterval);
 }
 
 void GPSDataSource::SimulatorTimeout()

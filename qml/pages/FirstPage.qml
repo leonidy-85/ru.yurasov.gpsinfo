@@ -27,18 +27,9 @@ Tabs.TabItem  {
             }
         }
     ]
-//    property bool radarPagePushed: false
-//    onStatusChanged: {
-//        if(!radarPagePushed && status === PageStatus.Active) {
-//            pageStack.pushAttached(radarPage)
-//            radarPagePushed = true
-//        }
-//        if(!radarPage.barchartPagePushed && status === PageStatus.Inactive) {
-//            radarPage.pagePushTimer.start()
-//        }
-//    }
 
     SilicaFlickable {
+        id: flickable
         anchors.fill: parent
 
         contentHeight: pageHeader.height + column.height;
@@ -67,7 +58,7 @@ Tabs.TabItem  {
             }
             InfoField {
                 label: qsTr("Latitude")
-                visible: settings.showLatitudeApp
+                visible: settings.showLatitudeApp && settings.coordinateFormat !== "UTM"
                 value: {
                     if (providers.position.position.latitudeValid) {
                         if (settings.coordinateFormat === "DEG") {
@@ -81,7 +72,7 @@ Tabs.TabItem  {
             }
             InfoField {
                 label: qsTr("Longitude")
-                visible: settings.showLongitudeApp
+                visible: settings.showLongitudeApp && settings.coordinateFormat !== "UTM"
                 value: {
                     if (providers.position.position.longitudeValid) {
                         if (settings.coordinateFormat === "DEG") {
@@ -92,6 +83,13 @@ Tabs.TabItem  {
                     }
                     return "-"
                 }
+            }
+            InfoField {
+                label: qsTr("UTM")
+                visible: settings.showLatitudeApp && settings.coordinateFormat === "UTM"
+                value: providers.position.position.coordinate.isValid
+                       ? locationFormatter.decimalToUTM(providers.position.position.coordinate.latitude, providers.position.position.coordinate.longitude)
+                       : "-"
             }
             InfoField {
                 label: qsTr("Altitude")
@@ -152,6 +150,13 @@ Tabs.TabItem  {
                 visible: settings.showLastUpdateApp
                 value: providers.timing.formatElapsedTime(providers.timing.secondsToLocationFix)
                 highlight: providers.timing.secondsToLocationFix < 0
+            }
+            InfoField {
+                label: qsTr("Time (UTC)")
+                visible: settings.showLastUpdateApp
+                value: isNaN(providers.position.position.timestamp.getTime())
+                       ? "-"
+                       : providers.position.position.timestamp.toISOString().substr(11, 8)
             }
 
             InfoField {

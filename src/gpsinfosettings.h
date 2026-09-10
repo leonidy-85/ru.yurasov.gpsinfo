@@ -45,6 +45,8 @@ class GPSInfoSettings : public QMLSettingsWrapper
 public:
     explicit GPSInfoSettings(QObject *parent = 0);
 
+    Q_INVOKABLE void resetToDefaults();
+
     QString getCoordinateFormat() {return this->value("coordinateFormat", "DEG").toString();}
     QString getLocale() {return this->value("locale", QLocale().name().mid(0, 2)).toString();}
     bool getShowAltitudeApp() {return this->value("showAltitudeApp", true).toBool();}

@@ -20,7 +20,7 @@ Page {
     Tabs.TabView {
         id: tabs
 
-        property var _viewModel: [mainPage, satelliteInfoPage, barchartPage]
+        property var _viewModel: [mainPage, satelliteInfoPage, barchartPage, graphsPage]
         width: parent.width
         height: tabMainPage.height
 
@@ -62,6 +62,13 @@ Page {
             }
         }
 
+        Component {
+            id: graphsPage
+
+            GraphsPage {
+            }
+        }
+
 
     }
 
@@ -99,6 +106,11 @@ Page {
         ListElement {
             title: qsTr("Signal")
             icon: "image://theme/icon-m-wlan-2"
+            count: 0
+        }
+        ListElement {
+            title: qsTr("Graphs")
+            icon: "image://theme/icon-m-storage"
             count: 0
         }
 //        ListElement {

@@ -36,11 +36,12 @@ Page {
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: Qt.resolvedUrl("/usr/share/icons/hicolor/172x172/apps/ru.yurasov.gpsinfo.png")
+                source: "image://theme/ru.yurasov.gpsinfo"
                 width: Theme.iconSizeExtraLarge
                 height: Theme.iconSizeExtraLarge
                 smooth: true
                 asynchronous: true
+                onStatusChanged: if (status === Image.Error) source = "image://theme/icon-m-gps"
             }
 
             AboutLabel {

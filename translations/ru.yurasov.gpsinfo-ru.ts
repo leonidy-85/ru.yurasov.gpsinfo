@@ -82,6 +82,26 @@
         <source>Copy location</source>
         <translation>Скопировать местоположение</translation>
     </message>
+    <message>
+        <source>Share location</source>
+        <translation>Поделиться местоположением</translation>
+    </message>
+    <message>
+        <source>Stop track</source>
+        <translation>Остановить трек</translation>
+    </message>
+    <message>
+        <source>Start track</source>
+        <translation>Начать трек</translation>
+    </message>
+    <message>
+        <source>Save track</source>
+        <translation>Сохранить трек</translation>
+    </message>
+    <message>
+        <source>Track saved</source>
+        <translation>Трек сохранён</translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -243,6 +263,37 @@
     <message>
         <source>Magnetic Declination</source>
         <translation>Магнитное склонение</translation>
+    </message>
+    <message>
+        <source>UTM</source>
+        <translation>UTM</translation>
+    </message>
+    <message>
+        <source>Time (UTC)</source>
+        <translation>Время (UTC)</translation>
+    </message>
+</context>
+<context>
+    <name>GraphsPage</name>
+    <message>
+        <source>Speed</source>
+        <translation>Скорость</translation>
+    </message>
+    <message>
+        <source>Altitude</source>
+        <translation>Высота</translation>
+    </message>
+    <message>
+        <source>Horizontal accuracy</source>
+        <translation>Точность по горизонтали</translation>
+    </message>
+    <message>
+        <source>Satellites in use</source>
+        <translation>Используется спутников</translation>
+    </message>
+    <message>
+        <source>Signal strength (max / avg)</source>
+        <translation>Уровень сигнала (макс. / сред.)</translation>
     </message>
 </context>
 <context>
@@ -517,6 +568,14 @@
         <source>Show movement direction</source>
         <translation>Показать направление движения</translation>
     </message>
+    <message>
+        <source>UTM</source>
+        <translation>UTM</translation>
+    </message>
+    <message>
+        <source>Reset settings</source>
+        <translation>Сбросить настройки</translation>
+    </message>
 </context>
 <context>
     <name>TabMainPage</name>
@@ -531,6 +590,10 @@
     <message>
         <source>Signal</source>
         <translation>Сигнал</translation>
+    </message>
+    <message>
+        <source>Graphs</source>
+        <translation>Графики</translation>
     </message>
 </context>
 </TS>

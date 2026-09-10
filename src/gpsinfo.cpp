@@ -1,23 +1,37 @@
 #include <QtQuick>
 
 #include <auroraapp.h>
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
 #include <QTranslator>
 #include "gpsdatasource.h"
 #include "gpsinfosettings.h"
+#include "trackrecorder.h"
 
 using namespace Aurora;
 
 
 int main(int argc, char *argv[]) {
-    //migrate old configuration
-    QDir configdir = QDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
-    if (configdir.cd("gpsinfo")) {
-        configdir.rename("gpsinfo.conf", "ru.yurasov.gpsinfo.conf");
-        configdir.cdUp();
-        configdir.rename("gpsinfo", "ru.yurasov.gpsinfo");
+    // Migrate configuration from the old (harbour-gpsinfo / gpsinfo) locations.
+    const QString configRoot = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+    const QString newDirName = "ru.yurasov.gpsinfo";
+    const QString newFileName = "ru.yurasov.gpsinfo.conf";
+    const QStringList oldNames = QStringList() << "gpsinfo" << "harbour-gpsinfo";
+    foreach (const QString &oldName, oldNames) {
+        QDir oldDir(configRoot + "/" + oldName);
+        if (!oldDir.exists())
+            continue;
+        QDir newDir(configRoot + "/" + newDirName);
+        if (!newDir.exists())
+            QDir(configRoot).mkpath(newDirName);
+        const QString oldFile = oldName + ".conf";
+        if (!QFile::exists(newDir.filePath(newFileName)) && QFile::exists(oldDir.filePath(oldFile)))
+            QFile::copy(oldDir.filePath(oldFile), newDir.filePath(newFileName));
     }
 
     qmlRegisterType<GPSDataSource>("Yurasov.GPSInfo", 1, 0, "GPSDataSource");
+    qmlRegisterType<TrackRecorder>("Yurasov.GPSInfo", 1, 0, "TrackRecorder");
     qmlRegisterType<GPSSatellite>();
     GPSInfoSettings* settings = new GPSInfoSettings();
 

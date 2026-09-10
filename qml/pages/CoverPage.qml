@@ -4,13 +4,6 @@ import "../components"
 
 CoverBackground {
 
-//    Image {
-//        id: bgimg
-//        source: "../../images/coverbg.png"
-//        anchors.horizontalCenter: parent.horizontalCenter
-//        width: parent.width
-//        height: sourceSize.height * width / sourceSize.width
-//    }
     Column {
         id: column
         anchors.top: parent.top
@@ -31,6 +24,9 @@ CoverBackground {
                 if (providers.position.position.latitudeValid) {
                     if (settings.coordinateFormat === "DEG") {
                         return locationFormatter.decimalLatToDMS(providers.position.position.coordinate.latitude, 0)
+                    } else if (settings.coordinateFormat === "UTM") {
+                        return locationFormatter.decimalToUTM(providers.position.position.coordinate.latitude,
+                                                             providers.position.position.coordinate.longitude)
                     } else {
                         return providers.position.position.coordinate.latitude
                     }
@@ -40,7 +36,7 @@ CoverBackground {
         }
         InfoField {
             label: providers.position.position.longitudeValid ? "" : qsTr("Longitude")
-            visible: settings.showLongitudeCover
+            visible: settings.showLongitudeCover && settings.coordinateFormat !== "UTM"
             fontpixelSize: Theme.fontSizeMedium
             value: {
                 if (providers.position.position.longitudeValid) {

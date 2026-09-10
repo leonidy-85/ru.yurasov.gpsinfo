@@ -7,20 +7,16 @@ import "../tabview" as Tabs
 Tabs.TabItem  {
 
     id: satelliteInfoPage
-
-//    property real topMargin
-
-//    anchors.fill: parent
-//    flickable: flickable
-
+    anchors.fill: parent
+    flickable: flickable
 
     AppBarMenu {
           property string namePage: "Satellite Info"
     }
 
-//    allowedOrientations: Orientation.Portrait | Orientation.Landscape | Orientation.LandscapeInverted
-
-    property int declination: settings.magneticDeclination === undefined ? 0 : settings.magneticDeclination
+    property real declination: providers.position.position.magneticVariationValid
+                              ? providers.position.position.magneticVariation
+                              : settings.magneticDeclination
 
     states: [
         State {
@@ -39,30 +35,13 @@ Tabs.TabItem  {
         }
     ]
 
-    property alias pagePushTimer: pagePushTimer
-    property bool barchartPagePushed: false
-    Timer {
-        id: pagePushTimer
-        interval: 100
-        repeat: false
-        running: false
-        onTriggered: {
-            if(!barchartPagePushed && tabMainPage.status === PageStatus.Active) {
-                console.log("Push barchartPage")
-                pageStack.pushAttached(barchartPage)
-                barchartPagePushed = true
-            }
-            else
-                console.log("Don't push")
-        }
-    }
-
     property int radarWidth: Screen.width - Theme.paddingLarge
     property int diameter: radarWidth - 2 * Theme.paddingLarge
     property int radius: diameter / 2
     property int center: radarWidth / 2
 
     SilicaFlickable {
+        id: flickable
         anchors.fill: parent
 
         // Radar background gradient is symmetrical,
@@ -72,6 +51,7 @@ Tabs.TabItem  {
             anchors.centerIn: radar
             width: diameter
             height: diameter
+            cached: true
             source: Rectangle {
                 width: radarBG.width
                 height: width

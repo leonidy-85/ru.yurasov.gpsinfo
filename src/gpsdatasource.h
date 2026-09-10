@@ -84,7 +84,7 @@ class GPSDataSource : public QObject
     Q_PROPERTY(QVariantList satellites READ getSatellites NOTIFY satellitesChanged)
     Q_PROPERTY(QAbstractListModel* satelliteModel READ getSatelliteModel CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
-    Q_PROPERTY(int updateInterval READ getUpdateInterval WRITE setUpdateInterval NOTIFY updateIntervalChanged)
+    Q_PROPERTY(int updateIntervalMs READ getUpdateIntervalMs WRITE setUpdateIntervalMs NOTIFY updateIntervalMsChanged)
     Q_PROPERTY(int numberOfUsedSatellites READ getNumberOfUsedSatellites WRITE setNumberOfUsedSatellites NOTIFY numberOfUsedSatellitesChanged)
     Q_PROPERTY(int numberOfVisibleSatellites READ getNumberOfVisibleSatellites WRITE setNumberOfVisibleSatellites NOTIFY numberOfVisibleSatellitesChanged)
 public:
@@ -102,21 +102,21 @@ public slots:
     int getNumberOfVisibleSatellites() {return this->numberOfVisibleSatellites;}
     QVariantList getSatellites();
     QAbstractListModel* getSatelliteModel() { return this->satelliteModel; }
-    int getUpdateInterval() {if (this->sSource) return this->sSource->updateInterval(); return -1;}
+    int getUpdateIntervalMs() {if (this->sSource) return this->sSource->updateInterval(); return -1;}
     bool isActive() {return this->active;}
     void satellitesInUseUpdated(const QList<QGeoSatelliteInfo> &infos);
     void satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &infos);
     void setActive(bool active);
     void setNumberOfUsedSatellites(int numberOfUsedSatellites) {this->numberOfUsedSatellites = numberOfUsedSatellites; emit this->numberOfUsedSatellitesChanged(numberOfUsedSatellites);}
     void setNumberOfVisibleSatellites(int numberOfVisibleSatellites) {this->numberOfVisibleSatellites = numberOfVisibleSatellites; emit this->numberOfVisibleSatellitesChanged(numberOfVisibleSatellites);}
-    void setUpdateInterval(int updateInterval);
+    void setUpdateIntervalMs(int updateInterval);
     void SimulatorTimeout();
 signals:
     void activeChanged(bool);
     void numberOfUsedSatellitesChanged(int);
     void numberOfVisibleSatellitesChanged(int);
     void satellitesChanged();
-    void updateIntervalChanged(int);
+    void updateIntervalMsChanged(int);
 };
 
 #endif // GPSDATASOURCE_H

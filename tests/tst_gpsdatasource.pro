@@ -11,9 +11,11 @@ SOURCES += \
     tst_gpsdatasource.cpp \
     ../src/gpsdatasource.cpp \
     ../src/gpsinfosettings.cpp \
-    ../src/qmlsettingswrapper.cpp
+    ../src/qmlsettingswrapper.cpp \
+    ../src/trackrecorder.cpp
 
 HEADERS += \
     ../src/gpsdatasource.h \
     ../src/gpsinfosettings.h \
-    ../src/qmlsettingswrapper.h
+    ../src/qmlsettingswrapper.h \
+    ../src/trackrecorder.h

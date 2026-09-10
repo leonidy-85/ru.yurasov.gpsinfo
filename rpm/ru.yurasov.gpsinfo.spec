@@ -1,8 +1,8 @@
 Name:       ru.yurasov.gpsinfo
 
 Summary:    GPSInfo
-Version:    0.15.2
-Release:    3
+Version:    0.15.3
+Release:    1
 License:    GPL-2.0
 URL:        https://github.com/leonidy-85/ru.yurasov.gpsinfo
 

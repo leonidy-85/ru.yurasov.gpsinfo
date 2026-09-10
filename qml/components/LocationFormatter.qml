@@ -35,6 +35,36 @@ Item {
         return decimalToDMS(location, hemisphere, numSecondPoints);
     }
 
+    // WGS84 forward projection to UTM (returns "33U 456789 6123456").
+    function decimalToUTM(latitude, longitude) {
+        var a = 6378137.0;
+        var f = 1.0 / 298.257223563;
+        var e2 = f * (2 - f);
+        var k0 = 0.9996;
+        var latRad = latitude * Math.PI / 180;
+        var lonRad = longitude * Math.PI / 180;
+        var zone = Math.floor((longitude + 180) / 6) + 1;
+        var lonOriginRad = ((zone - 1) * 6 - 180 + 3) * Math.PI / 180;
+        var ep2 = e2 / (1 - e2);
+        var N = a / Math.sqrt(1 - e2 * Math.sin(latRad) * Math.sin(latRad));
+        var T = Math.tan(latRad) * Math.tan(latRad);
+        var C = ep2 * Math.cos(latRad) * Math.cos(latRad);
+        var A = Math.cos(latRad) * (lonRad - lonOriginRad);
+        var M = a * ((1 - e2 / 4 - 3 * e2 * e2 / 64 - 5 * e2 * e2 * e2 / 256) * latRad
+                - (3 * e2 / 8 + 3 * e2 * e2 / 32 + 45 * e2 * e2 * e2 / 1024) * Math.sin(2 * latRad)
+                + (15 * e2 * e2 / 256 + 45 * e2 * e2 * e2 / 1024) * Math.sin(4 * latRad)
+                - (35 * e2 * e2 * e2 / 3072) * Math.sin(6 * latRad));
+        var easting = k0 * N * (A + (1 - T + C) * A * A * A / 6
+                + (5 - 18 * T + T * T + 72 * C - 58 * ep2) * A * A * A * A * A / 120) + 500000.0;
+        var northing = k0 * (M + N * Math.tan(latRad) * (A * A / 2
+                + (5 - T + 9 * C + 4 * C * C) * A * A * A * A / 24
+                + (61 - 58 * T + T * T + 600 * C - 330 * ep2) * A * A * A * A * A * A / 720));
+        if (latitude < 0)
+            northing += 10000000.0;
+        var band = "CDEFGHJKLMNPQRSTUVWX".charAt(Math.floor((latitude + 80) / 8));
+        return zone + band + " " + Math.round(easting) + " " + Math.round(northing);
+    }
+
     function formatDirection(direction) {
         var dirStr;
         if (direction < 11.25) {

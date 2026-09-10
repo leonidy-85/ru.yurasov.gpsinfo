@@ -17,6 +17,7 @@ public slots:
     QVariant value(const QString &key);
     QVariant value(const QString &key, const QVariant &defaultValue);
     void setValue(const QString &key, const QVariant &value);
+    void clear();
 };
 
 #endif // QMLSETTINGSWRAPPER_H

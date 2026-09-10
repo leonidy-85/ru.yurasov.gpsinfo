@@ -7,6 +7,7 @@ SOURCES += \
     src/gpsdatasource.cpp \
     src/qmlsettingswrapper.cpp \
     src/gpsinfosettings.cpp \
+    src/trackrecorder.cpp \
     src/gpsinfo.cpp
 
 DISTFILES += \
@@ -14,12 +15,14 @@ DISTFILES += \
     qml/components/AboutLabel.qml \
     qml/components/AppBarMenu.qml \
     qml/components/DoubleSwitch.qml \
+    qml/components/GraphItem.qml \
     qml/components/InfoField.qml \
     qml/components/LocationFormatter.qml \
     qml/components/Providers.qml \
     qml/pages/AboutPage.qml \
     qml/pages/CoverPage.qml \
     qml/pages/FirstPage.qml \
+    qml/pages/GraphsPage.qml \
     qml/pages/LicensePage.qml \
     qml/pages/SatelliteBarchartPage.qml \
     qml/pages/SatelliteInfoPage.qml \
@@ -43,18 +46,12 @@ AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 HEADERS += \
     src/gpsdatasource.h \
     src/qmlsettingswrapper.h \
-    src/gpsinfosettings.h
+    src/gpsinfosettings.h \
+    src/trackrecorder.h
 
 QT += positioning
 
 TRANSLATIONS = translations/ru.yurasov.gpsinfo-ru.ts
-
-images.files = \
-    images/coverbg.png
-
-#images.path = /usr/share/ru.yurasov.gpsinfo/images
-INSTALLS += images
-
 
 VERSION = $$system( grep -E "^Version:|^Release:" rpm/ru.yurasov.gpsinfo.spec |tr -d "[A-Z][a-z]: " | tr "\\\n" "-" | sed "s/\.$//g"| tr -d "[:space:]")
 

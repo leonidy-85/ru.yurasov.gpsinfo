@@ -1,3 +1,10 @@
+* Thu Sep 10 2026 Yurasov Leonid 0.15.3-1
+- Add track recording and GPX export
+- Add time-series graphs page (speed, altitude, accuracy, satellites, signal)
+- Add UTM coordinate format and automatic magnetic declination
+- Add share location and reset settings actions
+- Fix flickable binding, config migration and magnetic declination input
+
 * Thu Sep 10 2026 Yurasov Leonid 0.15.2-3
 - Port to Aurora OS 5.2
 - Rename package and configuration to ru.yurasov.gpsinfo

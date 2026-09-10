@@ -1,7 +1,12 @@
 #include <QtTest>
 #include <QSignalSpy>
+#include <QDateTime>
+#include <QFile>
 #include <QGeoSatelliteInfo>
+#include <QStandardPaths>
 #include "gpsdatasource.h"
+#include "gpsinfosettings.h"
+#include "trackrecorder.h"
 
 static QGeoSatelliteInfo makeSatellite(int identifier,
                                        QGeoSatelliteInfo::SatelliteSystem system,
@@ -27,6 +32,7 @@ class tst_GpsSatelliteModel : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void initialState();
     void reconcileAddsSatellites();
     void reconcileUpdatesInPlace();
@@ -36,7 +42,15 @@ private slots:
     void markInUse();
     void clearModel();
     void roleNames();
+    void settingsReset();
+    void trackRecorderStartStop();
+    void trackRecorderSave();
 };
+
+void tst_GpsSatelliteModel::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void tst_GpsSatelliteModel::initialState()
 {
@@ -164,6 +178,62 @@ void tst_GpsSatelliteModel::roleNames()
     QHash<int, QByteArray> roles = model.roleNames();
     QCOMPARE(roles.value(Qt::DisplayRole), QByteArray("modelData"));
     QCOMPARE(roles.value(GPSSatelliteModel::SatelliteRole), QByteArray("satellite"));
+}
+
+void tst_GpsSatelliteModel::settingsReset()
+{
+    GPSInfoSettings settings;
+    settings.setShowAltitudeApp(false);
+    settings.setCoordinateFormat("DEC");
+    QCOMPARE(settings.getShowAltitudeApp(), false);
+
+    settings.resetToDefaults();
+
+    QCOMPARE(settings.getShowAltitudeApp(), true);
+    QCOMPARE(settings.getCoordinateFormat(), QString("DEG"));
+}
+
+void tst_GpsSatelliteModel::trackRecorderStartStop()
+{
+    TrackRecorder recorder;
+    QCOMPARE(recorder.isRecording(), false);
+    QCOMPARE(recorder.pointCount(), 0);
+
+    recorder.addPosition(55.75, 37.61, 150.0, QDateTime::currentDateTime());
+    QCOMPARE(recorder.pointCount(), 0);
+
+    recorder.start();
+    QCOMPARE(recorder.isRecording(), true);
+    recorder.addPosition(55.75, 37.61, 150.0, QDateTime::currentDateTime());
+    recorder.addPosition(55.76, 37.62, 155.0, QDateTime::currentDateTime());
+    QCOMPARE(recorder.pointCount(), 2);
+
+    recorder.stop();
+    QCOMPARE(recorder.isRecording(), false);
+
+    recorder.clear();
+    QCOMPARE(recorder.pointCount(), 0);
+}
+
+void tst_GpsSatelliteModel::trackRecorderSave()
+{
+    TrackRecorder recorder;
+    recorder.start();
+    recorder.addPosition(55.75, 37.61, 150.0, QDateTime::currentDateTime());
+    recorder.addPosition(55.76, 37.62, 155.0, QDateTime::currentDateTime());
+
+    const QString path = recorder.save();
+    QVERIFY(!path.isEmpty());
+    QVERIFY(QFile::exists(path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly | QIODevice::Text));
+    const QByteArray content = file.readAll();
+    file.close();
+    QVERIFY(content.contains("<gpx"));
+    QVERIFY(content.contains("trkpt"));
+
+    QFile::remove(path);
 }
 
 QTEST_MAIN(tst_GpsSatelliteModel)

@@ -29,20 +29,7 @@ Page {
     }
 
     function setLanguageCombobox() {
-        switch(settings.locale){
-        case "de": return 1
-        case "es": return 2
-        case "fi": return 3
-        case "fr": return 4
-        case "hu": return 5
-        case "nl": return 6
-        case "pl": return 7
-        case "ru": return 8
-        case "sk": return 9
-        case "sv": return 10
-        case "zh_CN": return 11
-        default:   return 0
-        }
+        return settings.locale === "ru" ? 1 : 0
     }
 
     SilicaListView {
@@ -63,8 +50,13 @@ Page {
                         text: qsTr("decimal")
                         onClicked: settings.coordinateFormat = "DEC"
                     }
+                    MenuItem {
+                        text: qsTr("UTM")
+                        onClicked: settings.coordinateFormat = "UTM"
+                    }
                 }
-                Component.onCompleted: currentIndex = settings.coordinateFormat === "DEG" ? 0 : 1
+                Component.onCompleted: currentIndex = settings.coordinateFormat === "DEG" ? 0
+                                                      : (settings.coordinateFormat === "UTM" ? 2 : 1)
             }
             ComboBox {
                 label: qsTr("Units")
@@ -117,18 +109,8 @@ Page {
                 id: languageCombobox
                 label: qsTr("Language")
                 menu: ContextMenu {
-                    MenuItem { text: "English";    onClicked: settings.locale = "en"; }
-                    MenuItem { text: "Deutsch";    onClicked: settings.locale = "de"; }
-                    MenuItem { text: "Español";    onClicked: settings.locale = "es"; }
-                    MenuItem { text: "Suomi";      onClicked: settings.locale = "fi"; }
-                    MenuItem { text: "Français";   onClicked: settings.locale = "fr"; }
-                    MenuItem { text: "Nederlands"; onClicked: settings.locale = "nl"; }
-                    MenuItem { text: "Magyar";     onClicked: settings.locale = "hu"; }
-                    MenuItem { text: "Polski";     onClicked: settings.locale = "pl"; }
-                    MenuItem { text: "Pусский";    onClicked: settings.locale = "ru"; }
-                    MenuItem { text: "Slovenčina"; onClicked: settings.locale = "sk"; }
-                    MenuItem { text: "Svenska";    onClicked: settings.locale = "sv"; }
-                    MenuItem { text: "简体中文";       onClicked: settings.locale = "zh_CN"; }
+                    MenuItem { text: "English"; onClicked: settings.locale = "en"; }
+                    MenuItem { text: "Pусский"; onClicked: settings.locale = "ru"; }
                 }
                 Component.onCompleted: currentIndex = setLanguageCombobox()
                 description: qsTr("Requires app restart")
@@ -155,13 +137,14 @@ Page {
                 label: qsTr("Magnetic Declination")
                 text: settings.magneticDeclination
                 placeholderText: qsTr("Local declination")
-                validator: IntValidator {
-                    bottom: 0
-                    top: 359
+                validator: DoubleValidator {
+                    bottom: -180
+                    top: 180
+                    decimals: 1
                 }
                 EnterKey.iconSource: "image://theme/icon-m-enter-close"
                 EnterKey.onClicked:  {focus = false
-                    settings.magneticDeclination = parseInt(text, 10) //setDeclination(parseInt(text, 10))
+                    settings.magneticDeclination = parseFloat(text)
                 }
                 function setDeclination(Dec) {
                     settings.magneticDeclination = Dec
@@ -381,6 +364,12 @@ Page {
                 lSw.onClicked: settings.showCompassCalibrationApp = lSw.checked
                 rSw.checked:   settings.showCompassCalibrationCover
                 rSw.onClicked: settings.showCompassCalibrationCover = rSw.checked
+            }
+
+            Button {
+                text: qsTr("Reset settings")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: settings.resetToDefaults()
             }
 
         }

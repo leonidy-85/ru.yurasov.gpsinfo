@@ -1,11 +1,15 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Sailfish.Share 1.0
 import Aurora.Controls 1.0
 
 
     AppBar {
         id: topAppBar
 
+        property ShareAction shareLocation: ShareAction {
+            title: qsTr("GPSInfo")
+        }
         headerText: (namePage==="GPSInfo") ? qsTr("GPSInfo") : (namePage==="Satellite signal strengths") ? qsTr("Satellite signal strengths") : (namePage==="Satellite Info") ?  qsTr("Satellite Info") : qsTr(" error")
 //        if (namePage===2)
 //        headerText: qsTr("Satellite signal strengths")
@@ -51,6 +55,9 @@ import Aurora.Controls 1.0
                               Clipboard.text = locationFormatter.decimalLatToDMS(providers.position.position.coordinate.latitude, 2)
                                       + ", "
                                       + locationFormatter.decimalLongToDMS(providers.position.position.coordinate.longitude, 2);
+                          } else if (settings.coordinateFormat === "UTM") {
+                              Clipboard.text = locationFormatter.decimalToUTM(providers.position.position.coordinate.latitude,
+                                                                             providers.position.position.coordinate.longitude);
                           } else {
                               Clipboard.text = providers.position.position.coordinate.latitude
                                       + ", "
@@ -58,6 +65,43 @@ import Aurora.Controls 1.0
                            }
                          }
                        }
+
+                      PopupMenuItem {
+                          text: qsTr("Share location")
+                          enabled: providers.position.position.coordinate.isValid
+                          onClicked: {
+                              var coordinate = providers.position.position.coordinate;
+                              var text;
+                              if (settings.coordinateFormat === "DEG") {
+                                  text = locationFormatter.decimalLatToDMS(coordinate.latitude, 2)
+                                       + ", "
+                                       + locationFormatter.decimalLongToDMS(coordinate.longitude, 2);
+                              } else if (settings.coordinateFormat === "UTM") {
+                                  text = locationFormatter.decimalToUTM(coordinate.latitude, coordinate.longitude);
+                              } else {
+                                  text = coordinate.latitude + ", " + coordinate.longitude;
+                              }
+                              topAppBar.shareLocation.resources = [{ "type": "text/plain",
+                                                                     "status": text + "\ngeo:" + coordinate.latitude + "," + coordinate.longitude }];
+                              topAppBar.shareLocation.trigger();
+                          }
+                      }
+
+                      PopupMenuItem {
+                          text: providers.trackRecorder.recording ? qsTr("Stop track") : qsTr("Start track")
+                          onClicked: providers.trackRecorder.recording ? providers.trackRecorder.stop()
+                                                                      : providers.trackRecorder.start()
+                      }
+
+                      PopupMenuItem {
+                          text: qsTr("Save track")
+                          enabled: providers.trackRecorder.pointCount > 0
+                          onClicked: {
+                              var path = providers.trackRecorder.save();
+                              if (path !== "")
+                                  Notices.show(qsTr("Track saved") + ": " + path, Notice.Short);
+                          }
+                      }
                   }
 
               }

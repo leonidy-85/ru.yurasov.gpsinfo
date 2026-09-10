@@ -18,6 +18,7 @@ Tabs.TabItem  {
     }
 
     SilicaFlickable {
+        id: flickable
         anchors.fill: parent
 
         PageHeader {
@@ -40,30 +41,31 @@ Tabs.TabItem  {
                     chartType: Charts.ChartType.BAR
                     property variant satellites: status === PageStatus.Inactive ? [] : providers.gps.satellites;
                     property bool componentLoaded: false
+                    // Initialised declaratively so the first paint always has valid data.
+                    chartData: ({
+                        labels: [],
+                        labelColors: [],
+                        datasets: [{
+                                data: [],
+                                fillColor: [],
+                                barStrokeWidth: [],
+                                strokeColor: []
+                            }]
+                    })
+                    chartOptions: ({
+                        scaleStartValue: 0,
+                        scaleStepWidth: 5,
+                        scaleSteps: 10,
+                        scaleOverride: true,
+                        scaleFontColor: Theme.secondaryHighlightColor,
+                        scaleFontSize: Theme.fontSizeSmall,
+                        scaleFontFamily: Theme.fontFamily,
+                        scaleLineColor: Theme.rgba(Theme.highlightColor, Theme.highlightBackgroundOpacity),
+                        scaleLineWidth: Theme.fontSizeTiny / 10.0,
+                        scaleGridLineColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity),
+                        scaleGridLineWidth: Theme.fontSizeTiny / 10.0
+                    })
                     Component.onCompleted: {
-                        chartData = {
-                            labels: [],
-                            labelsColor: [],
-                            datasets: [{
-                                    data: [],
-                                    fillColor: [],
-                                    barStrokeWidth: [],
-                                    strokeColor: []
-                                }]
-                        }
-                        chartOptions = {
-                            scaleStartValue: 0,
-                            scaleStepWidth: 5,
-                            scaleSteps: 10,
-                            scaleOverride: true,
-                            scaleFontColor: Theme.secondaryHighlightColor,
-                            scaleFontSize: Theme.fontSizeSmall,
-                            scaleFontFamily: Theme.fontFamily,
-                            scaleLineColor: Theme.rgba(Theme.highlightColor, Theme.highlightBackgroundOpacity),
-                            scaleLineWidth: Theme.fontSizeTiny / 10.0,
-                            scaleGridLineColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity),
-                            scaleGridLineWidth: Theme.fontSizeTiny / 10.0
-                        }
                         rssiBarChart.componentLoaded = true
                     }
 

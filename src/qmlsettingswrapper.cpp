@@ -29,3 +29,7 @@ void QMLSettingsWrapper::setValue(const QString &key, const QVariant &value){
     qDebug() << "set settings value" << key << "->" << value;
     this->settings->setValue(key, value);
 }
+
+void QMLSettingsWrapper::clear(){
+    this->settings->clear();
+}
