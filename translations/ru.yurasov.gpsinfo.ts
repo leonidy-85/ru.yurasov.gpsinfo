@@ -63,67 +63,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="13"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="15"/>
         <source>Satellite signal strengths</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="13"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="14"/>
         <source>Satellite Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="13"/>
-        <source> error</source>
+        <location filename="../qml/components/AppBarMenu.qml" line="16"/>
+        <source>Graphs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="34"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="38"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="39"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="43"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="44"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="48"/>
         <source>Deactivate GPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="44"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="48"/>
         <source>Activate GPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="52"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="56"/>
         <source>Copy location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="70"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="74"/>
         <source>Share location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="91"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="95"/>
         <source>Stop track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="91"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="95"/>
         <source>Start track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="97"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="101"/>
         <source>Save track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/AppBarMenu.qml" line="102"/>
+        <location filename="../qml/components/AppBarMenu.qml" line="106"/>
         <source>Track saved</source>
         <translation type="unfinished"></translation>
     </message>

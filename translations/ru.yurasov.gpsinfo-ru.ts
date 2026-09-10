@@ -59,10 +59,6 @@
         <translation>Информация о спутниках</translation>
     </message>
     <message>
-        <source> error</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -101,6 +97,10 @@
     <message>
         <source>Track saved</source>
         <translation>Трек сохранён</translation>
+    </message>
+    <message>
+        <source>Graphs</source>
+        <translation>Графики</translation>
     </message>
 </context>
 <context>

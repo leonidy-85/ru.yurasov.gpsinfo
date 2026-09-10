@@ -10,7 +10,11 @@ import Aurora.Controls 1.0
         property ShareAction shareLocation: ShareAction {
             title: qsTr("GPSInfo")
         }
-        headerText: (namePage==="GPSInfo") ? qsTr("GPSInfo") : (namePage==="Satellite signal strengths") ? qsTr("Satellite signal strengths") : (namePage==="Satellite Info") ?  qsTr("Satellite Info") : qsTr(" error")
+        headerText: namePage === "GPSInfo" ? qsTr("GPSInfo")
+                  : namePage === "Satellite Info" ? qsTr("Satellite Info")
+                  : namePage === "Satellite signal strengths" ? qsTr("Satellite signal strengths")
+                  : namePage === "Graphs" ? qsTr("Graphs")
+                  : ""
 //        if (namePage===2)
 //        headerText: qsTr("Satellite signal strengths")
 //        if (namePage===3)
